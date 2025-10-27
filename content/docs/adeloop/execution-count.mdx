@@ -1,0 +1,224 @@
+---
+title: Execution Count Tracking
+description: Sequential numbering system for code cell executions
+icon: Hash
+---
+
+Execution count tracking provides a sequential numbering system for code cell executions, similar to Jupyter notebooks.
+
+![Execution Count](/notebook6.png)
+
+## Overview
+
+Execution count tracking assigns a sequential number to each code cell execution, helping you keep track of the order in which cells were run. This feature is essential for understanding the state of your notebook and debugging issues.
+
+## How It Works
+
+Each time you execute a code cell, Adeloop assigns it the next sequential number:
+
+```
+[1] x = 10
+[2] y = 20
+[3] print(f"Sum: {x + y}")
+```
+
+The execution count appears in brackets at the beginning of each cell's output, making it easy to track the execution order.
+
+## Benefits of Execution Count Tracking
+
+### 1. Debugging Assistance
+Execution counts help identify when variables were defined or modified:
+
+```python
+# Execution [1]
+data = [1, 2, 3, 4, 5]
+
+# Execution [2]
+data.append(6)
+
+# Execution [3]
+print(f"Data length: {len(data)}")  # Length will be 6
+```
+
+### 2. Reproducibility
+By tracking execution order, you can better understand the state of your notebook:
+
+```python
+# Execution [1]
+import pandas as pd
+
+# Execution [2]
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+
+# Execution [3]
+df['C'] = df['A'] + df['B']  # Depends on previous execution
+
+# Execution [4]
+result = df  # Rich output showing final DataFrame
+```
+
+### 3. Collaboration
+Execution counts help team members understand the workflow:
+
+```python
+# Execution [1] - Alice: Load data
+df = pd.read_csv('data.csv')
+
+# Execution [2] - Bob: Clean data
+df = df.dropna()
+
+# Execution [3] - Alice: Analyze data
+summary = df.describe()
+```
+
+## Execution History
+
+Adeloop maintains a complete history of executions, accessible through:
+
+1. The `%history` magic command
+2. The execution count display
+3. The notebook's metadata
+
+### Using %history Command
+
+```python
+# Show all execution history
+%history
+
+# Show last 5 executions
+%history -n 5
+
+# Show specific execution
+%history 3  # Show execution 3
+```
+
+## Variable State Tracking
+
+Execution counts are linked to variable state tracking:
+
+```python
+# Execution [1]
+x = 10
+
+# Execution [2]
+y = x * 2
+
+# Execution [3]
+z = y + 5
+
+# At this point:
+# Execution 1: x = 10
+# Execution 2: y = 20 (x * 2)
+# Execution 3: z = 25 (y + 5)
+```
+
+## Restarting and Clearing
+
+When you restart the kernel or clear outputs, execution counts reset:
+
+```python
+# After restart, execution counts start from 1 again
+# Execution [1]
+new_variable = "Hello, Adeloop!"
+```
+
+## Best Practices
+
+1. **Execute cells in order** when possible to maintain a logical flow
+2. **Use %history** to review your execution sequence
+3. **Restart kernel** when you need a clean state
+4. **Clear outputs** to reset execution counts while preserving code
+
+## Example Notebook
+
+Try this example to see execution count tracking in action:
+
+```python
+# Execution [1] - Import libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Execution [2] - Create sample data
+np.random.seed(42)
+data = {
+    'Month': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    'Sales': np.random.randint(100, 500, 6),
+    'Expenses': np.random.randint(50, 300, 6)
+}
+df = pd.DataFrame(data)
+
+# Execution [3] - Display data
+print("Monthly Data:")
+result = df
+
+# Execution [4] - Calculate profit
+df['Profit'] = df['Sales'] - df['Expenses']
+print("\nData with Profit column:")
+result = df
+
+# Execution [5] - Create visualization
+plt.figure(figsize=(10, 6))
+plt.plot(df['Month'], df['Sales'], marker='o', label='Sales')
+plt.plot(df['Month'], df['Expenses'], marker='s', label='Expenses')
+plt.plot(df['Month'], df['Profit'], marker='^', label='Profit')
+plt.title('Monthly Financial Data')
+plt.xlabel('Month')
+plt.ylabel('Amount')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Execution [6] - Summary statistics
+summary = df[['Sales', 'Expenses', 'Profit']].describe()
+print("\nSummary Statistics:")
+result = summary
+
+# Execution [7] - Check execution history
+print("\nExecution History:")
+%history -n 7
+```
+
+This example demonstrates how execution counts help track the progression of a data analysis workflow, from data creation to visualization and summary statistics.
+
+## Advanced Features
+
+### Execution Dependencies
+
+Understand how executions depend on each other:
+
+```python
+# Execution [1]
+base_value = 100
+
+# Execution [2] - Depends on Execution [1]
+multiplier = 2
+result_value = base_value * multiplier
+
+# Execution [3] - Depends on Execution [2]
+final_result = result_value + 50
+
+# Execution [4] - Show all values
+print(f"Base: {base_value}")
+print(f"Result: {result_value}")
+print(f"Final: {final_result}")
+```
+
+### Non-Sequential Executions
+
+Sometimes you might execute cells out of order:
+
+```python
+# Execution [1]
+x = 10
+
+# Execution [3] - Executed after Execution [2]
+z = x + y  # This depends on both x (Execution [1]) and y (Execution [2])
+
+# Execution [2] - Executed after Execution [1] but before Execution [3]
+y = 20
+```
+
+In this case, the execution counts show that even though cell [2] was written before cell [3], it was executed after.
+
+Execution count tracking is a powerful feature that helps maintain clarity and reproducibility in your data analysis workflows. Combined with other Jupyter-like features, it makes Adeloop a robust platform for collaborative data science.

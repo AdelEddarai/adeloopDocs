@@ -1,0 +1,9 @@
+{
+  "title": "Adeloop DataFrame Display",
+  "description": "How to display DataFrames in the table tab",
+  "icon": "Table",
+  "root": true,
+  "pages": [
+    "index"
+  ]
+}

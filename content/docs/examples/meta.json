@@ -1,0 +1,13 @@
+{
+  "title": "Adeloop Python Examples",
+  "description": "Practical examples for using Python in Adeloop notebooks",
+  "icon": "BookA",
+  "root": true,
+  "pages": [
+    "index",
+    "computer-vision",
+    "pipeline-workflows",
+    "plotly-3d",
+    "testing-plotly"
+  ]
+}

@@ -1,0 +1,167 @@
+---
+title: Adeloop Testing Plotly Functionality
+description: Verifying Plotly and matplotlib functionality in Adeloop backend
+---
+
+# Testing Plotly Functionality in Adeloop
+
+This guide demonstrates how to test Plotly and matplotlib functionality in the Adeloop backend to ensure proper visualization support.
+
+## Overview
+
+Before creating complex visualizations in Adeloop, it's important to verify that the backend properly supports Plotly and matplotlib. This testing script helps confirm that visualizations will render correctly in your notebooks.
+
+## Testing Plotly Basic Functionality
+
+This example tests basic Plotly functionality:
+
+```python
+# Cell 1: Testing Plotly Basic Functionality
+import plotly.graph_objects as go
+import numpy as np
+
+# Create sample data
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# Create plot
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='sin(x)'))
+fig.update_layout(title='Sine Wave', xaxis_title='X', yaxis_title='Y')
+
+# Show the plot (this should be captured)
+fig.show()
+
+print("Plotly plot created!")
+```
+
+## Testing Matplotlib Basic Functionality
+
+This example tests basic matplotlib functionality:
+
+```python
+# Cell 2: Testing Matplotlib Basic Functionality
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Create sample data
+x = np.linspace(0, 10, 100)
+y = np.cos(x)
+
+# Create plot
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, label='cos(x)')
+plt.title('Cosine Wave')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.legend()
+plt.grid(True)
+
+# Show the plot (this should be captured)
+plt.show()
+
+print("Matplotlib plot created!")
+```
+
+## Complete Test Script
+
+This complete test script verifies both Plotly and matplotlib functionality:
+
+```python
+# Cell 3: Complete Test Script
+#!/usr/bin/env python3
+"""
+Test script to verify Plotly functionality in the Adeloop backend
+"""
+
+# Test basic Plotly plot
+def test_plotly_basic():
+    """Test basic Plotly functionality"""
+    print("Testing basic Plotly functionality...")
+    
+    import plotly.graph_objects as go
+    import numpy as np
+
+    # Create sample data
+    x = np.linspace(0, 10, 100)
+    y = np.sin(x)
+
+    # Create plot
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name='sin(x)'))
+    fig.update_layout(title='Sine Wave', xaxis_title='X', yaxis_title='Y')
+
+    # Show the plot (this should be captured)
+    fig.show()
+
+    print("Plotly plot created!")
+
+# Test basic matplotlib plot
+def test_matplotlib_basic():
+    """Test basic matplotlib functionality"""
+    print("Testing basic matplotlib functionality...")
+    
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Create sample data
+    x = np.linspace(0, 10, 100)
+    y = np.cos(x)
+
+    # Create plot
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y, label='cos(x)')
+    plt.title('Cosine Wave')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.legend()
+    plt.grid(True)
+
+    # Show the plot (this should be captured)
+    plt.show()
+
+    print("Matplotlib plot created!")
+
+# Run the tests
+if __name__ == "__main__":
+    print("Adeloop Plotting Test")
+    print("=" * 50)
+    
+    # Test Plotly
+    test_plotly_basic()
+    
+    # Test matplotlib
+    test_matplotlib_basic()
+    
+    print("\n" + "=" * 50)
+    print("Test Summary:")
+    print("✅ Both Plotly and matplotlib should be working correctly in Adeloop!")
+```
+
+## Expected Results
+
+When you run these tests in Adeloop, you should see:
+
+1. **Plotly Test**: A sine wave plot with interactive features
+2. **Matplotlib Test**: A cosine wave plot
+3. **Console Output**: Confirmation messages indicating successful execution
+
+## Troubleshooting
+
+If the tests don't work as expected:
+
+1. **Check Backend**: Ensure the Adeloop backend is properly configured
+2. **Verify Dependencies**: Confirm that Plotly and matplotlib are installed
+3. **Check Display Functions**: Make sure `fig.show()` and `plt.show()` are being called
+4. **Review Permissions**: Ensure the notebook has proper permissions to display plots
+
+## Using Visualizations in Adeloop
+
+Once you've confirmed that plotting works correctly, you can create more complex visualizations:
+
+1. **Import Libraries**: Always import required libraries at the beginning of your cell
+2. **Create Data**: Generate or load your data
+3. **Build Visualizations**: Use Plotly or matplotlib to create your plots
+4. **Display Results**: Call `show()` functions to render the visualizations
+
+These testing examples help ensure that your Adeloop environment is properly configured for creating visualizations in your data analysis workflows.

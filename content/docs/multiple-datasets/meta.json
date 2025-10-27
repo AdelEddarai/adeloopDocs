@@ -1,0 +1,9 @@
+{
+  "title": "Adeloop Multiple Datasets",
+  "description": "Working with multiple datasets in Adeloop",
+  "icon": "Database",
+  "root": true,
+  "pages": [
+    "index"
+  ]
+}

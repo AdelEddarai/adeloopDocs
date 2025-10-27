@@ -1,0 +1,265 @@
+---
+title: Magic Commands
+description: Special commands prefixed with % that provide enhanced functionality
+icon: Zap
+---
+
+Magic commands are special commands prefixed with `%` that provide enhanced functionality beyond standard Python code execution, similar to Jupyter notebooks.
+
+![Magic Commands](/notebook_shell.png)
+
+## Overview
+
+Magic commands in Adeloop are designed to enhance your productivity by providing quick access to common tasks and system information. These commands are prefixed with the `%` character and can be used anywhere in your notebook cells.
+
+## Available Magic Commands
+
+### %who
+List all variable names in the current namespace:
+
+```python
+# Create some variables
+x = 10
+y = "hello"
+z = [1, 2, 3]
+
+# List variable names
+%who
+# Output: x y z
+```
+
+### %whos
+List variables with details including types and sizes:
+
+```python
+# Detailed variable listing
+%whos
+# Output:
+# Variable    Type         Size/Value
+# ------------------------------------
+# x           int          10
+# y           str          hello
+# z           list         3 items
+```
+
+### %history
+Show execution history with code snippets:
+
+```python
+# Show recent execution history
+%history
+
+# Show specific number of recent executions
+%history -n 5  # Last 5 executions
+```
+
+### %ls
+List directory contents with details:
+
+```python
+# List files in current directory
+%ls
+
+# List with more details
+%ls -la
+```
+
+### %pwd
+Print working directory:
+
+```python
+# Show current working directory
+%pwd
+```
+
+### %reset
+Reset the namespace (clear all variables):
+
+```python
+# Reset namespace (will prompt for confirmation)
+%reset
+
+# Reset without confirmation
+%reset -f
+```
+
+### %time
+Time execution of a statement:
+
+```python
+# Time a simple operation
+%time sum([i**2 for i in range(1000)])
+
+# Time a more complex operation
+%time [x**2 for x in range(10000)]
+```
+
+### %matplotlib
+Set or show matplotlib backend:
+
+```python
+# Show current matplotlib backend
+%matplotlib
+
+# Set matplotlib backend
+%matplotlib inline
+```
+
+## Example Usage
+
+Here's a comprehensive example showing multiple magic commands in use:
+
+```python
+# Create sample variables
+import pandas as pd
+import numpy as np
+
+data = pd.DataFrame({
+    'A': np.random.randn(100),
+    'B': np.random.randn(100),
+    'C': np.random.randn(100)
+})
+
+model = "Sample Model"
+results = [1, 2, 3, 4, 5]
+
+# List all variables
+print("Current variables:")
+%who
+
+# Detailed view of variables
+print("\nDetailed variable information:")
+%whos
+
+# Check current directory
+print("\nCurrent working directory:")
+%pwd
+
+# List files
+print("\nFiles in current directory:")
+%ls
+
+# Time a computation
+print("\nTiming a computation:")
+%time result = sum([x**2 for x in range(10000)])
+
+# Show execution history
+print("\nRecent execution history:")
+%history -n 3
+```
+
+## Advanced Usage
+
+### Combining Magic Commands
+You can combine multiple magic commands in a single workflow:
+
+```python
+# Reset workspace
+%reset -f
+
+# Check that workspace is empty
+%who
+
+# Create new variables
+x = np.array([1, 2, 3, 4, 5])
+y = x ** 2
+
+# Verify variables exist
+%whos
+
+# Time a more complex operation
+%time z = np.fft.fft(y)
+
+# Check current directory and files
+%pwd
+%ls
+```
+
+### Using in Data Analysis Workflows
+Magic commands are particularly useful in data analysis workflows:
+
+```python
+# Load data
+import pandas as pd
+df = pd.read_csv('data.csv')
+
+# Check variables
+%whos
+
+# Examine data
+print("First few rows:")
+result = df.head()
+
+# Time data processing
+%time processed_data = df.groupby('category').agg({'value': 'mean'})
+
+# Show processing result
+result = processed_data
+
+# Check execution history
+%history -n 5
+```
+
+## Best Practices
+
+1. **Use %who and %whos regularly** to keep track of your variables
+2. **Use %history** to review your analysis steps
+3. **Use %reset** to start fresh when needed
+4. **Use %time** to identify performance bottlenecks
+5. **Use %pwd and %ls** to manage files and directories
+
+## Example Notebook
+
+Try this complete example to see magic commands in action:
+
+```python
+# Example: Data Analysis with Magic Commands
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Create sample data
+np.random.seed(42)
+dates = pd.date_range('2023-01-01', periods=365, freq='D')
+data = {
+    'Date': dates,
+    'Temperature': np.random.normal(20, 5, 365),  # Mean 20°C, std 5°C
+    'Humidity': np.random.normal(60, 10, 365),   # Mean 60%, std 10%
+    'Wind_Speed': np.random.exponential(5, 365)  # Mean 5 km/h
+}
+df = pd.DataFrame(data)
+
+# Check variables
+print("Workspace variables:")
+%who
+
+print("\nDetailed variable information:")
+%whos
+
+# Display data
+print("\nFirst 5 rows of data:")
+result = df.head()
+
+# Perform analysis
+print("\nAnalyzing temperature data...")
+%time temp_stats = df['Temperature'].describe()
+
+print("Temperature statistics:")
+result = temp_stats
+
+# Check working directory
+print("\nCurrent working directory:")
+%pwd
+
+# List files
+print("\nFiles in current directory:")
+%ls
+
+# Show execution history
+print("\nRecent execution history:")
+%history -n 5
+```
+
+This example demonstrates how magic commands can enhance your data analysis workflow by providing quick access to workspace information, timing capabilities, and system commands.
+
+Continue to learn about [Shell Commands](shell-commands) or explore [Execution Count Tracking](execution-count) for more ways to enhance your Adeloop experience.

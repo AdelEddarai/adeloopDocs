@@ -1,0 +1,287 @@
+---
+title: Shell Commands
+description: Execute system commands directly from code cells using the ! prefix
+icon: Terminal
+---
+
+Execute shell commands directly from code cells using the `!` prefix, similar to Jupyter notebooks.
+
+![Shell Commands](/notebook5.png)
+
+## Overview
+
+Shell command support in Adeloop allows you to execute system commands directly from your notebook cells using the `!` prefix. This feature provides seamless integration between your Python code and the underlying operating system.
+
+## Basic Usage
+
+Execute any valid shell command by prefixing it with `!`:
+
+```python
+# List directory contents
+!ls
+
+# Print current directory
+!pwd
+
+# Print system information
+!uname -a
+
+# Print date and time
+!date
+```
+
+## Capturing Output
+
+Shell commands can capture output for use in your Python code:
+
+```python
+# Capture file listing
+files = !ls
+print("Files in directory:")
+for file in files:
+    print(f"  {file}")
+
+# Capture current directory
+current_dir = !pwd
+print(f"Current directory: {current_dir[0]}")
+
+# Capture system information
+system_info = !uname -a
+print(f"System: {system_info[0]}")
+```
+
+## Working with Files and Directories
+
+Common file and directory operations:
+
+```python
+# Create a directory
+!mkdir my_analysis
+
+# Change to that directory
+%cd my_analysis
+
+# Create a file
+!echo "This is my analysis file" > analysis.txt
+
+# View file contents
+!cat analysis.txt
+
+# List directory contents
+!ls -la
+
+# Go back to parent directory
+%cd ..
+```
+
+## Installing Packages
+
+Install Python packages directly from your notebook:
+
+```python
+# Install a package
+!pip install seaborn
+
+# Install multiple packages
+!pip install plotly bokeh
+
+# Upgrade a package
+!pip install --upgrade pandas
+```
+
+## Working with Data Files
+
+Download and process data files:
+
+```python
+# Download a data file
+!wget https://example.com/data.csv
+
+# Check if file was downloaded
+!ls -la data.csv
+
+# Unzip a file
+!unzip data.zip
+
+# View first few lines of a file
+!head data.csv
+
+# Count lines in a file
+!wc -l data.csv
+```
+
+## Environment Variables
+
+Access and set environment variables:
+
+```python
+# View all environment variables
+!env
+
+# View a specific environment variable
+!echo $HOME
+
+# Set an environment variable (in current session)
+import os
+os.environ['MY_VAR'] = 'my_value'
+
+# Access it in shell command
+!echo $MY_VAR
+```
+
+## Process Management
+
+Manage system processes:
+
+```python
+# View running processes
+!ps aux
+
+# View processes for current user
+!ps -u
+
+# Kill a process (be careful!)
+# !kill -9 PID
+
+# View system resources
+!top -n 1
+```
+
+## Advanced Usage
+
+### Combining Shell and Python
+
+Integrate shell commands with Python code:
+
+```python
+# Get list of files and process them
+file_list = !ls *.csv
+print(f"Found {len(file_list)} CSV files")
+
+for file in file_list:
+    print(f"Processing {file}...")
+    # Process each file
+    !wc -l {file}  # Count lines in each file
+
+# Check disk usage and parse output
+disk_usage = !df -h .
+usage_info = disk_usage[1].split()
+print(f"Disk usage: {usage_info[4]} used of {usage_info[1]}")
+
+# Get system memory information
+memory_info = !free -h
+print("Memory information:")
+for line in memory_info:
+    print(line)
+```
+
+### Conditional Execution
+
+Use Python variables in shell commands:
+
+```python
+# Set variables
+filename = "my_data.csv"
+directory = "/home/user/data"
+
+# Use variables in shell commands
+!mkdir -p {directory}
+!touch {directory}/{filename}
+
+# Verify creation
+!ls -la {directory}/{filename}
+```
+
+## Error Handling
+
+Shell commands properly handle errors and return appropriate status:
+
+```python
+# This will show an error if file doesn't exist
+try:
+    result = !cat nonexistent_file.txt
+    if result:
+        print(result)
+except Exception as e:
+    print(f"Error: {e}")
+
+# Check command exit status
+import subprocess
+result = subprocess.run(['ls', 'nonexistent_file.txt'], capture_output=True)
+if result.returncode != 0:
+    print("Command failed")
+    print(result.stderr.decode())
+```
+
+## Best Practices
+
+1. **Use shell commands sparingly** - Python libraries are often more reliable
+2. **Be careful with destructive commands** - Commands like `rm -rf` can be dangerous
+3. **Use variables carefully** - Sanitize inputs to prevent shell injection
+4. **Capture output when needed** - Use `!command` assignment to capture results
+5. **Check exit status** - Verify commands succeeded before proceeding
+
+## Example Notebook
+
+Try this comprehensive example to see shell commands in action:
+
+```python
+# Example: Data Analysis Setup with Shell Commands
+import pandas as pd
+import os
+
+# Create project directory
+project_name = "sales_analysis"
+!mkdir -p {project_name}
+
+# Change to project directory
+%cd {project_name}
+
+# Create data directory
+!mkdir -p data
+
+# Create a sample data file
+sample_data = """Date,Product,Sales,Region
+2023-01-01,ProductA,100,North
+2023-01-01,ProductB,150,South
+2023-01-02,ProductA,120,North
+2023-01-02,ProductB,180,South
+2023-01-03,ProductA,110,North
+2023-01-03,ProductB,160,South"""
+
+# Write sample data to file
+with open('data/sales_data.csv', 'w') as f:
+    f.write(sample_data)
+
+# Verify file creation
+print("Created files:")
+!ls -la
+
+print("\nData file contents:")
+!head data/sales_data.csv
+
+# Check current directory
+print(f"\nCurrent directory: {os.getcwd()}")
+
+# Install required packages (if needed)
+# !pip install pandas matplotlib seaborn
+
+# Load and examine data
+df = pd.read_csv('data/sales_data.csv')
+print("\nData loaded successfully:")
+result = df.head()
+
+# Show execution environment
+print("\nPython version:")
+!python --version
+
+print("\nInstalled packages:")
+!pip list | grep pandas
+
+# Return to original directory
+%cd ..
+```
+
+This example demonstrates how shell commands can be used to set up a data analysis project, create directories, generate sample data files, and verify the environment.
+
+Continue to learn about [Execution Count Tracking](execution-count) for more ways to enhance your Adeloop experience.

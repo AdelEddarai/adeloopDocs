@@ -1,0 +1,184 @@
+---
+title: Adeloop Multiple Datasets Guide
+description: Working with multiple datasets in Adeloop
+icon: Database
+---
+
+# Working with Multiple Datasets in Adeloop
+
+This guide provides step-by-step instructions to work with multiple datasets in Adeloop, including loading, combining, and analyzing data from multiple sources.
+
+## Prerequisites
+
+1. Have at least 2 datasets uploaded to your database
+2. Access to the ChartBuilder component
+3. Datasets should have some common columns for join operations
+
+## Dataset Selection UI
+
+### Steps:
+1. Open ChartBuilder
+2. Create a new cell (or use existing cell)
+3. Click the **Database icon** in the cell toolbar
+4. Verify you can see multiple datasets in the dropdown
+5. Select 2-3 datasets using checkboxes
+6. Verify the button text updates to show count (e.g., "3 datasets")
+
+## Loading Multiple Datasets in Python
+
+```python
+# Check available datasets
+show_datasets()
+
+# Load multiple datasets
+df1 = pd.read_csv('dataset1.csv')
+df2 = pd.read_csv('dataset2.csv')
+
+print(f"Dataset 1: {df1.shape[0]} rows, {df1.shape[1]} columns")
+print(f"Dataset 2: {df2.shape[0]} rows, {df2.shape[1]} columns")
+
+# Show column names
+print(f"Dataset 1 columns: {df1.columns.tolist()}")
+print(f"Dataset 2 columns: {df2.columns.tolist()}")
+
+# Display first dataset in table tab
+result = df1
+```
+
+## Combining Multiple Datasets
+
+### Concatenation
+
+```python
+# Concatenate datasets vertically (stacking rows)
+combined_df = pd.concat([df1, df2], ignore_index=True)
+print(f"Combined dataset: {combined_df.shape[0]} rows, {combined_df.shape[1]} columns")
+
+# Display combined dataset
+result = combined_df
+```
+
+### Merging on Common Columns
+
+```python
+# Find common columns
+common_cols = set(df1.columns) & set(df2.columns)
+print(f"Common columns: {list(common_cols)}")
+
+# Merge datasets if common column exists
+if common_cols:
+    merged_df = pd.merge(df1, df2, on=list(common_cols)[0], how='inner')
+    print(f"Merged dataset shape: {merged_df.shape}")
+    
+    # Display merged dataset
+    result = merged_df
+```
+
+## SQL Queries with Multiple Datasets
+
+```sql
+-- Test basic table access with standardized names
+SELECT 'Dataset 1' as source, COUNT(*) as rows FROM dataset1
+UNION ALL
+SELECT 'Dataset 2' as source, COUNT(*) as rows FROM dataset2;
+
+-- Join using standardized table names
+SELECT
+  d1.employee_id,
+  d1.name,
+  d2.salary
+FROM dataset1 d1
+JOIN dataset2 d2 ON d1.employee_id = d2.employee_id
+LIMIT 10;
+```
+
+## Error Handling
+
+```python
+try:
+    df_nonexistent = pd.read_csv('nonexistent.csv')
+except FileNotFoundError as e:
+    print("✓ Proper error handling for missing dataset")
+    print(f"Error message: {e}")
+    
+# Show what's actually available
+show_datasets()
+```
+
+## Performance Considerations
+
+```python
+import time
+
+start_time = time.time()
+
+# Load all datasets
+datasets = {}
+for i in range(1, 4):  # Test with 3 datasets
+    try:
+        df = pd.read_csv(f'dataset{i}.csv')
+        datasets[f'df{i}'] = df
+        print(f"Loaded dataset{i}: {df.shape}")
+    except FileNotFoundError:
+        print(f"Dataset{i} not available")
+
+load_time = time.time() - start_time
+print(f"Total loading time: {load_time:.2f} seconds")
+
+# Simple analysis
+total_rows = sum(df.shape[0] for df in datasets.values())
+print(f"Total rows across all datasets: {total_rows}")
+
+result = f"Loaded {len(datasets)} datasets with {total_rows} total rows in {load_time:.2f}s"
+```
+
+## Cross-Language Consistency
+
+```sql
+SELECT COUNT(*) as sql_count FROM employee_data;
+```
+
+```python
+df = pd.read_csv('employee_data.csv')  # Use actual dataset name
+python_count = len(df)
+print(f"Python count: {python_count}")
+result = f"Row count: {python_count}"
+```
+
+## Troubleshooting Common Issues
+
+### Issue: "Table not found" in SQL
+**Solution:** Check dataset names and ensure they're converted properly:
+- Spaces → underscores
+- Special characters → underscores  
+- Lowercase conversion
+- File extensions removed
+
+### Issue: "File not found" in Python
+**Solution:** 
+1. Run `show_datasets()` to see available files
+2. Use exact filenames shown
+3. Check dataset selection in cell
+
+### Issue: Join fails in SQL
+**Solution:**
+1. Verify common columns exist
+2. Check data types match
+3. Use `DESCRIBE` or sample queries to inspect structure
+
+### Issue: Memory errors with large datasets
+**Solution:**
+1. Use `LIMIT` in SQL queries
+2. Use `df.head()` or `df.sample()` in Python
+3. Process datasets in chunks
+
+## Success Criteria
+
+All operations should work with:
+- ✅ Multiple datasets can be selected and used
+- ✅ SQL queries work with proper table names
+- ✅ Python can load datasets via `pd.read_csv()`
+- ✅ Joins and merges work correctly
+- ✅ Error handling is informative
+- ✅ Performance is acceptable
+- ✅ Data consistency across languages
