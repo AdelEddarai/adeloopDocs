@@ -1,18 +1,19 @@
 import * as React from "react";
-import type { SVGProps } from "react";
 import Image from "next/image";
 
-export const Logo = (props: SVGProps<SVGSVGElement>) => (
+export const Logo = (
+  props: Omit<React.ComponentProps<typeof Image>, "src" | "alt" | "width" | "height">
+) => (
   <Image
     src="/logo.png"
     alt="Adeloop Logo"
     width={24}
     height={24}
-    {...props as any}
+    {...props}
   />
 );
 
-export const GithubIcon = (props: SVGProps<SVGSVGElement>) => (
+export const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     viewBox="0 0 256 250"
     width="1em"

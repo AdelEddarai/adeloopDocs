@@ -62,7 +62,7 @@ export default function HomePage() {
           </h2>
           <p className="text-sm text-fd-muted-foreground mb-6">
             Discover how Adeloop addresses key business challenges with its comprehensive 
-            analytics platform. From data integration to real-time insights, we've got you covered.
+            analytics platform. From data integration to real-time insights, we&apos;ve got you covered.
           </p>
         </div>
         <div className="w-full max-w-lg flex flex-col items-end justify-center gap-4 font-mono">
@@ -174,7 +174,7 @@ export default function HomePage() {
         </p>
         <div className="flex flex-col gap-6 items-center">
           <p className="max-w-xl text-fd-muted-foreground">
-            Experience the power of Adeloop's analytics platform. Move from raw data to 
+            Experience the power of Adeloop&apos;s analytics platform. Move from raw data to 
             actionable decisions—faster, smarter, and easier than traditional BI tools.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">

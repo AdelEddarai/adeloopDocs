@@ -1,10 +1,8 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { Logo } from "@/lib/icons";
 import {
-  BookA,
   PanelsTopLeft,
   Server,
-  GraduationCap,
   Album,
 } from "lucide-react";
 import Image from "next/image";
