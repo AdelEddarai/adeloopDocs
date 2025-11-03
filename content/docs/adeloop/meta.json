@@ -3,5 +3,5 @@
   "description": "Learn about the Adeloop cloud Jupyter notebook platform for data analytics.",
   "icon": "Cloud",
   "root": true,
-  "pages": ["index", "jupyter-features", "rich-output", "magic-commands", "shell-commands", "execution-count"]
+  "pages": ["index", "jupyter-features", "rich-output", "execution-count", "ingest-data"]
 }

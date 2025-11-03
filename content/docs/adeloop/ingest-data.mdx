@@ -1,0 +1,232 @@
+---
+title: Ingesting Data
+description: How to ingest CSV/Excel, internal and external databases into Adeloop notebooks and register datasets for reuse.
+icon: Database
+---
+
+![Data Ingestion](/data_ingest.png)
+
+This short guide explains common ways to bring data into Adeloop so it can be used in notebooks or registered as datasets for other pages. It covers:
+
+- Internal file formats (CSV, Excel)
+- Relational databases commonly hosted internally (Postgres, MySQL) comming soon,
+- Document stores (MongoDB) comming soon
+- External analytic warehouses (Snowflake) comming soon
+
+Security note: never store credentials in source control. Use environment variables or secrets management.
+
+---
+
+## 1) CSV & Excel (local / internal files)
+
+These are the simplest and work well inside notebooks.
+
+Python (pandas) examples you can run in a notebook:
+
+```python
+import pandas as pd
+
+# CSV
+df = pd.read_csv("/path/to/data.csv")
+
+# Excel (first sheet)
+df_x = pd.read_excel("/path/to/data.xlsx", sheet_name=0)
+
+# Quick preview
+print(df.head())
+```
+
+Notes and tips:
+- For large CSVs prefer reading with `chunksize=` or converting to Parquet for faster reuse: `df.to_parquet("data/mydata.parquet")`.
+- If users upload files via the UI, place them in a data directory the notebook can reach (for example a mounted `data/` folder). Avoid committing large data files to the repo.
+
+---
+
+## 2) Relational databases (Postgres, MySQL)
+
+Use a DB driver plus SQLAlchemy for a consistent interface. Provide credentials via environment variables.
+
+Install required packages (example):
+
+```bash
+pip install pandas sqlalchemy psycopg2-binary mysql-connector-python
+```
+
+Example: Postgres
+
+```python
+import os
+import pandas as pd
+from sqlalchemy import create_engine
+
+PG_USER = os.getenv("PG_USER")
+PG_PASS = os.getenv("PG_PASS")
+PG_HOST = os.getenv("PG_HOST")
+PG_PORT = os.getenv("PG_PORT", "5432")
+PG_DB = os.getenv("PG_DB")
+
+engine = create_engine(f"postgresql+psycopg2://{PG_USER}:{PG_PASS}@{PG_HOST}:{PG_PORT}/{PG_DB}")
+
+query = "SELECT * FROM my_schema.my_table LIMIT 1000"
+df = pd.read_sql(query, engine)
+```
+
+Example: MySQL
+
+```python
+from sqlalchemy import create_engine
+
+engine = create_engine("mysql+mysqlconnector://user:password@host:3306/dbname")
+df = pd.read_sql("SELECT * FROM some_table LIMIT 500", engine)
+```
+
+Tips:
+- Avoid SELECT * on large tables; limit and filter in SQL for performance.
+- Use connection pooling and short-lived credentials if possible.
+
+---
+
+## 3) MongoDB (document store)
+
+Install the driver:
+
+```bash
+pip install pymongo
+```
+
+Example using `pymongo` and converting to a pandas DataFrame:
+
+```python
+from pymongo import MongoClient
+import pandas as pd
+import os
+
+MONGO_URI = os.getenv("MONGO_URI")  # mongodb+srv://user:pass@host
+client = MongoClient(MONGO_URI)
+
+db = client.get_database("mydb")
+collection = db.get_collection("my_collection")
+
+cursor = collection.find({}, limit=1000)
+records = list(cursor)
+
+df = pd.DataFrame.from_records(records)
+```
+
+Notes:
+- Documents can contain nested structures; normalize with `pd.json_normalize` if needed.
+- For very large collections, stream results and process in chunks.
+
+---
+
+## 4) Snowflake (external analytic warehouse)
+
+Snowflake provides a fast way to access large analytical datasets. Use the Snowflake Python connector or SQLAlchemy dialect.
+
+Install packages:
+
+```bash
+pip install "snowflake-connector-python[pandas]" sqlalchemy snowflake-sqlalchemy
+```
+
+Example using SQLAlchemy engine:
+
+```python
+import os
+import pandas as pd
+from sqlalchemy import create_engine
+
+SF_USER = os.getenv("SF_USER")
+SF_PASS = os.getenv("SF_PASS")
+SF_ACCOUNT = os.getenv("SF_ACCOUNT")
+SF_WAREHOUSE = os.getenv("SF_WAREHOUSE")
+SF_DATABASE = os.getenv("SF_DATABASE")
+SF_SCHEMA = os.getenv("SF_SCHEMA")
+
+engine = create_engine(
+    f"snowflake://{SF_USER}:{SF_PASS}@{SF_ACCOUNT}/{SF_DATABASE}/{SF_SCHEMA}?warehouse={SF_WAREHOUSE}"
+)
+
+sql = "SELECT * FROM ANALYTICS.LOOKS LIMIT 1000"
+df = pd.read_sql(sql, engine)
+```
+
+Notes:
+- Credentials should come from secure stores or environment variables.
+- For repeated use, consider creating a view or a smaller extracted dataset.
+
+---
+
+## 5) Reusing and publishing datasets
+
+After loading data in a notebook you may want to reuse it across notebooks or pages:
+
+- Save as Parquet for fast reload: `df.to_parquet("data/mydataset.parquet")`.
+- Save to a shared store or object storage (S3 / internal file share) and reference the path in other notebooks/pages.
+- If your platform supports registering datasets, follow the platform's dataset registration workflow (e.g., provide path, schema, and metadata).
+
+Example: save and reload
+
+```python
+# save
+df.to_parquet("/workspace/data/mydataset.parquet", index=False)
+
+# later, in any notebook
+df = pd.read_parquet("/workspace/data/mydataset.parquet")
+```
+
+---
+
+## 6) Best practices & security
+
+- Never hardcode credentials; use environment vars or secrets.
+- For production workloads, push heavy lifting (ingest, transformation) to jobs rather than interactive notebooks.
+- Log data provenance: where the data came from, which query was used, and when it was refreshed.
+- Use limited-scope credentials and network controls.
+
+---
+also in dataeditor we have CSheet
+
+![Adeloop Platform](/data_version.png)
+
+## CSheet — in-place dataset editing and GitHub-style versioning
+
+Adeloop supports a spreadsheet-like editor (CSheet) that lets users open a dataset (CSV/Excel), edit rows and columns interactively, and save changes as a versioned dataset — similar to saving a file in GitHub with a commit history.
+
+Key behaviors:
+- Edit in place: users can perform small edits, corrections, and simple transforms directly in the UI.
+- Versioned saves: when saving, CSheet can create an immutable snapshot (a new dataset version) with metadata (author, message, timestamp). This preserves history and makes rollbacks possible.
+- GitHub-style push: optionally, the platform can persist a copy of the dataset to a Git repository (or create a pull request) using an API token stored in secrets.
+
+Conceptual example (not run here) showing how a notebook might export an edited CSV and push it to a repo using a GitHub token kept in an environment variable:
+
+```python
+# export the edited dataset from the notebook workspace
+df.to_csv("/workspace/data/mydataset.csv", index=False)
+
+# push to GitHub (conceptual example; use secure tokens and small files)
+from github import Github
+import os
+
+G = Github(os.getenv("GITHUB_TOKEN"))
+repo = G.get_repo("owner/repo")
+path = "data/mydataset.csv"
+content = open("/workspace/data/mydataset.csv", "r", encoding="utf-8").read()
+try:
+    existing = repo.get_contents(path)
+    repo.update_file(path, "Update dataset via CSheet", content, existing.sha)
+except Exception:
+    repo.create_file(path, "Add dataset via CSheet", content)
+```
+
+Notes and recommendations:
+- Prefer storing large datasets in object storage (S3, GCS, internal file share) and keep Git for small CSVs or metadata only.
+- Do not commit secrets; use the platform's secrets store or environment variables for API tokens.
+- When integrating with GitHub, consider creating a pull request rather than directly overwriting production files so changes can be reviewed.
+- After saving a versioned dataset, register it in the dataset catalog (path or dataset ID) so other notebooks and pages can reference it reliably.
+
+If you'd like, I can add:
+- a small helper module that wraps save/push operations safely (e.g., `lib/data_connectors.py`), or
+- a short example notebook showing editable CSheet flow and pushing a small CSV to a repo.
+
+

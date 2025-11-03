@@ -1,6 +1,6 @@
 ---
-title: Jupyter-like Features
-description: All the familiar Jupyter functionality enhanced for the cloud
+title: "Jupyter-like Features"
+description: "All the familiar Jupyter functionality enhanced for the cloud"
 icon: Code
 ---
 
@@ -8,227 +8,119 @@ Adeloop provides all the familiar Jupyter-like features you expect, enhanced wit
 
 ![Jupyter Features](/notebook_cells.png)
 
-## Variable Persistence
+## Overview
 
-Just like in Jupyter notebooks, variables defined in one cell execution persist across subsequent executions.
+Jupyter-like features in Adeloop allow you to work with code and data interactively. This includes:
+
+- Variable persistence across cells
+- Sequential execution counting
+- Rich output display (DataFrames, plots)
+- Dataset integration
+- Magic commands and shell access
+
+## Core Features
+
+### Variable Persistence
+
+Variables defined in one cell execution persist across subsequent executions:
 
 ```python
-# Cell 1
+# First cell
 x = 10
 y = 20
 
-# Cell 2 (can access x and y from previous cell)
+# Second cell - variables x and y are still available
 z = x + y
 print(z)  # Output: 30
 ```
 
-This persistence allows you to build complex analyses incrementally, running and refining parts of your code without losing your workspace state.
+This persistence lets you build analyses incrementally while maintaining your workspace state.
 
-## Execution Count Tracking
+### Execution Count Tracking
 
-Each code execution is assigned a sequential execution count (1, 2, 3, ...), displayed in brackets just like Jupyter:
+Each code execution gets a sequential number to track operation order:
 
+```python
+# This will be [1]
+data = [1, 2, 3]
+
+# This will be [2]
+data.append(4)
+
+# This will be [3]
+print(len(data))  # Output: 4
 ```
-[1] x = 10
-[2] y = 20
-[3] print(x + y)  # Output: 30
-```
 
-Execution counts help you track the order of operations and reference specific cell executions in your workflow.
+### Rich Output Display
 
-## Rich Output Support
-
-Adeloop supports various types of rich output including:
-
-### DataFrames with HTML Formatting
-When you assign a pandas DataFrame to the `result` variable, it's automatically displayed in an interactive table format.
+Adeloop supports interactive visualization of various data types:
 
 ```python
 import pandas as pd
+import matplotlib.pyplot as plt
 
-# Create a sample DataFrame
+# DataFrames display as interactive tables
 df = pd.DataFrame({
-    'Name': ['Alice', 'Bob', 'Charlie', 'Diana'],
-    'Age': [25, 30, 35, 28],
-    'City': ['New York', 'London', 'Tokyo', 'Paris']
+    "A": [1, 2, 3],
+    "B": [4, 5, 6]
 })
-
-# Display as rich output
 result = df
-```
 
-### Matplotlib and Plotly Figures
-Visualizations are automatically rendered inline:
-
-```python
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Create sample data
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
-
-# Create and display plot
-plt.figure(figsize=(10, 6))
-plt.plot(x, y)
-plt.title('Sine Wave')
-plt.xlabel('X values')
-plt.ylabel('Y values')
-plt.grid(True)
+# Plots render inline
+plt.plot(df["A"], df["B"])
+plt.title("Sample Plot")
 plt.show()
 ```
 
-### Images and Tables
-Various other output types are supported with enhanced formatting.
 
-## Magic Commands
+### Dataset Access
 
-Adeloop supports Jupyter-like magic commands that provide enhanced functionality:
-
-### %who
-List all variable names in the current namespace:
-```python
-x = 10
-y = "hello"
-%who  # Output: x y
-```
-
-### %whos
-List variables with details including types and sizes:
-```python
-%whos
-# Output:
-# Variable    Type         Size/Value
-# ------------------------------------
-# x           int          10
-# y           str          hello
-```
-
-### %history
-Show execution history with code snippets:
-```python
-%history
-```
-
-### %ls
-List directory contents:
-```python
-%ls
-```
-
-### %pwd
-Print working directory:
-```python
-%pwd
-```
-
-### %reset
-Reset the namespace (clear all variables):
-```python
-%reset
-```
-
-## Shell Command Support
-
-Execute shell commands using the `!` prefix with enhanced output capture:
+Selected datasets are automatically available as DataFrames:
 
 ```python
-!ls -la
-!echo "Hello World"
-!pwd
-!date
+# Direct access (recommended)
+print(paie.head())
+print(paie.shape)
+
+# Also available as df1, df2, etc.
+print(df1.head())
+print(df2.head())
 ```
 
-Shell commands properly capture both stdout and stderr output for comprehensive system interaction.
+### File Operations
 
-## Streaming Output
-
-Real-time output streaming for long-running processes, similar to Jupyter notebooks:
+Load and save data directly from the notebook:
 
 ```python
-import time
+# Load CSV files
+data = pd.read_csv("dataset.csv")
 
-# Simulate a long-running process
-for i in range(1, 11):
-    print(f"Processing step {i}...")
-    time.sleep(1)  # Wait for 1 second
-    
-print("Process completed!")
+# Save results
+df.to_parquet("results.parquet")
 ```
 
-Streaming output allows you to monitor the progress of lengthy computations directly in the notebook.
 
-## Namespace Management
 
-Adeloop provides robust namespace management that:
-- Preserves variables across executions
-- Prevents namespace corruption
-- Supports variable inspection
-- Offers recovery mechanisms
+## Best Practices
 
-## Execution History
+1. **Variable Management**
+   - Clear unused variables with `%reset`
+   - Use descriptive names
+   - Check memory usage with `df.info()`
 
-Complete execution history tracking includes:
-- Code snippets for each execution
-- Timestamps
-- Execution counts
-- Variable state at each execution
+2. **Data Handling**
+   - Preview data before operations
+   - Use efficient formats (Parquet)
+   - Handle large datasets in chunks
 
-Access your execution history with the `%history` magic command.
+3. **Code Organization**
+   - Keep cells focused and small
+   - Add markdown cells for documentation
+   - Use sequential execution order
 
-## Error Handling
+## See Also
 
-Enhanced error handling with:
-- Detailed traceback information
-- Error recovery mechanisms
-- Clear error messages for debugging
-
-```python
-# Example of error handling
-undefined_variable + 10  # This will produce a clear error message
-```
-
-## Example Notebook
-
-Try this example to see multiple Jupyter-like features in action:
-
-```python
-# Example demonstrating multiple features
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Create sample data
-data = {
-    'Product': ['A', 'B', 'C', 'D', 'E'],
-    'Sales': [100, 150, 120, 200, 180],
-    'Profit': [20, 30, 25, 40, 35]
-}
-df = pd.DataFrame(data)
-
-# Display DataFrame (rich output)
-print("Sales Data:")
-result = df
-
-# Create visualization
-plt.figure(figsize=(10, 6))
-plt.bar(df['Product'], df['Sales'], color='skyblue')
-plt.title('Product Sales')
-plt.xlabel('Product')
-plt.ylabel('Sales')
-plt.show()
-
-# Use magic commands
-%who
-%whos
-
-# Show current directory
-%pwd
-
-# List files
-%ls
-```
-
-This example demonstrates variable persistence, rich output for DataFrames and plots, and several magic commands all working together seamlessly.
-
-Continue to the next sections to learn more about specific features like [Rich Output Support](rich-output) and [Magic Commands](magic-commands).
+- [Rich Output Support](rich-output) - Advanced visualization
+- [Magic Commands](magic-commands) - Special command reference
+- [Shell Commands](shell-commands) - System integration
+- [Dataset Access](ingest-data) - Working with data sources
