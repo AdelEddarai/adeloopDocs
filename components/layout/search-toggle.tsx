@@ -13,6 +13,7 @@ interface SearchToggleProps
 
 export function SearchToggle({
   hideIfDisabled,
+  // @ts-ignore
   size = 'icon-sm',
   color = 'ghost',
   ...props

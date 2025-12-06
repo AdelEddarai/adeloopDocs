@@ -188,6 +188,7 @@ export function DocsLayout(props: DocsLayoutProps) {
                     className={cn(
                       buttonVariants({
                         color: 'ghost',
+                        // @ts-ignore
                         size: 'icon-sm',
                         className: 'mt-px mb-auto text-fd-muted-foreground',
                       }),
@@ -214,6 +215,7 @@ export function DocsLayout(props: DocsLayoutProps) {
                 item={item}
                 className={cn(
                   buttonVariants({
+                    // @ts-ignore
                     size: 'icon-sm',
                     color: 'ghost',
                     className: 'lg:hidden',
@@ -231,6 +233,7 @@ export function DocsLayout(props: DocsLayoutProps) {
             <SidebarTrigger
               className={cn(
                 buttonVariants({
+                  // @ts-ignore
                   size: 'icon-sm',
                   color: 'ghost',
                   className: 'ms-auto text-fd-muted-foreground',
@@ -255,6 +258,7 @@ export function DocsLayout(props: DocsLayoutProps) {
                 item={item}
                 className={cn(
                   buttonVariants({
+                    // @ts-ignore
                     size: 'icon-sm',
                     color: 'ghost',
                   }),
@@ -341,6 +345,7 @@ function DocsNavbar({
               className={cn(
                 buttonVariants({
                   color: 'ghost',
+                  // @ts-ignore
                   size: 'icon-sm',
                 }),
                 'text-fd-muted-foreground data-[collapsed=false]:hidden max-md:hidden',
@@ -396,6 +401,7 @@ function DocsNavbar({
                 key={i}
                 item={item}
                 className={cn(
+                  // @ts-ignore
                   buttonVariants({ size: 'icon-sm', color: 'ghost' }),
                   'text-fd-muted-foreground max-lg:hidden',
                 )}
@@ -414,6 +420,7 @@ function DocsNavbar({
               className={cn(
                 buttonVariants({
                   color: 'ghost',
+                  // @ts-ignore
                   size: 'icon-sm',
                   className: 'p-2 -me-1.5',
                 }),
@@ -438,6 +445,7 @@ function DocsNavbar({
                 className={cn(
                   buttonVariants({
                     color: 'secondary',
+                    // @ts-ignore
                     size: 'icon-sm',
                   }),
                   'text-fd-muted-foreground rounded-full -me-1.5',

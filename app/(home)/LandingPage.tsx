@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
 import {
   BookAIcon,
   GraduationCapIcon,
@@ -140,10 +141,12 @@ export default function LandingPage() {
 
                 {/* Inner Image Container (Masks the spinner center) */}
                 <div className="relative rounded-[14px] bg-[#0a0a0a] overflow-hidden">
-                    <img
+                    <Image
                       src={gettingStarted}
                       alt="Adeloop Dashboard"
-                      loading="lazy"
+                      width={1200}
+                      height={720}
+                      priority
                       className="w-full h-auto object-cover select-none rounded-[14px] opacity-100 border border-white/5"
                     />
                     {/* Glossy Overlay */}

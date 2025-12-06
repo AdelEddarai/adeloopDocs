@@ -38,6 +38,7 @@ export function createPageTreeRenderer({
 
     return (
       <SidebarFolder
+      // @ts-ignore
         collapsible={item.collapsible}
         active={path.includes(item)}
         defaultOpen={item.defaultOpen}

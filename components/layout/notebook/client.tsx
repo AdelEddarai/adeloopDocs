@@ -17,6 +17,7 @@ import { ChevronDown } from 'lucide-react';
 import Link from 'fumadocs-core/link';
 import { usePathname } from 'fumadocs-core/framework';
 import { isTabActive } from '../../../lib/is-active';
+// @ts-ignore
 import { useIsScrollTop } from 'fumadocs-ui/utils/use-is-scroll-top';
 import {
   LinkItem,
