@@ -1,4 +1,5 @@
 import "./global.css";
+import { DocsLayout } from 'fumadocs-ui/layouts/notebook';
 import { RootProvider } from "fumadocs-ui/provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
@@ -35,12 +36,12 @@ export default function Layout({ children }: { children: ReactNode }) {
       <head>
         <meta
           name="google-site-verification"
-          content="mUdyJH0SN3fOxO2DT5J_kAtWgn0gRfUZX1svg6ZwXEY"
+          content=""
         />
       </head>
       <body className="flex flex-col min-h-screen">
         <RootProvider>{children}</RootProvider>
-        <Analytics />
+
       </body>
     </html>
   );

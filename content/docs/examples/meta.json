@@ -5,9 +5,11 @@
   "root": true,
   "pages": [
     "index",
-    "computer-vision",
-    "pipeline-workflows",
+    "---Visualizations---",
     "plotly-3d",
-    "testing-plotly"
+    "testing-plotly",
+    "---Advanced Examples---",
+    "computer-vision",
+    "pipeline-workflows"
   ]
 }

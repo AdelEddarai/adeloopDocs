@@ -4,11 +4,14 @@ description: "All the familiar Jupyter functionality enhanced for the cloud"
 icon: Code
 ---
 
-Adeloop provides all the familiar Jupyter-like features you expect, enhanced with cloud capabilities for improved performance and collaboration.
+import { JupyterIllustration } from '../../../components/ui/adeloopnotebook'
 
-![Jupyter Features](/notebook_cells.png)
+<JupyterIllustration />
 
 ## Overview
+
+Adeloop provides all the familiar Jupyter-like features you expect, enhanced with cloud capabilities for improved performance and collaboration.
+![Jupyter Features](/notebook_cells.png)
 
 Jupyter-like features in Adeloop allow you to work with code and data interactively. This includes:
 
@@ -87,19 +90,6 @@ print(df1.head())
 print(df2.head())
 ```
 
-### File Operations
-
-Load and save data directly from the notebook:
-
-```python
-# Load CSV files
-data = pd.read_csv("dataset.csv")
-
-# Save results
-df.to_parquet("results.parquet")
-```
-
-
 
 ## Best Practices
 
@@ -121,6 +111,4 @@ df.to_parquet("results.parquet")
 ## See Also
 
 - [Rich Output Support](rich-output) - Advanced visualization
-- [Magic Commands](magic-commands) - Special command reference
-- [Shell Commands](shell-commands) - System integration
 - [Dataset Access](ingest-data) - Working with data sources

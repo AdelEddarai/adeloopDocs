@@ -4,7 +4,7 @@ export default function robots() {
       userAgent: "*",
       allow: "/",
     },
-    host: "https://learn-the-web.vercel.app",
-    sitemap: "https://learn-the-web.vercel.app/sitemap.xml",
+    host: "https://adeloopdoc.netlify.app",
+    sitemap: "https://adeloopdoc.netlify.app/sitemap.xml",
   };
 }

@@ -6,9 +6,9 @@ import {
   DocsTitle,
 } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
-import defaultMdxComponents from "fumadocs-ui/mdx";
 import { metadataImage } from "@/lib/metadata";
 import { CustomYoutubeEmbed } from "@/components/mdx";
+import { getMDXComponents } from "@/mdx-components";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -23,15 +23,17 @@ export default async function Page(props: {
     <DocsPage
       toc={page.data.toc}
       full={page.data.full}
+      tableOfContent={{
+        style: 'normal',
+      }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody className="prose-img:invert dark:prose-img:invert-0">
         <MDX
-          components={{
-            ...defaultMdxComponents,
+          components={getMDXComponents({
             YouTubeEmbed: CustomYoutubeEmbed,
-          }}
+          })}
         />
       </DocsBody>
     </DocsPage>

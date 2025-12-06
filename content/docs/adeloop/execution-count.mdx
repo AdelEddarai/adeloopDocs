@@ -75,22 +75,9 @@ summary = df.describe()
 
 Adeloop maintains a complete history of executions, accessible through:
 
-1. The `%history` magic command
 2. The execution count display
 3. The notebook's metadata
 
-### Using %history Command
-
-```python
-# Show all execution history
-%history
-
-# Show last 5 executions
-%history -n 5
-
-# Show specific execution
-%history 3  # Show execution 3
-```
 
 ## Variable State Tracking
 
@@ -174,9 +161,6 @@ summary = df[['Sales', 'Expenses', 'Profit']].describe()
 print("\nSummary Statistics:")
 result = summary
 
-# Execution [7] - Check execution history
-print("\nExecution History:")
-%history -n 7
 ```
 
 This example demonstrates how execution counts help track the progression of a data analysis workflow, from data creation to visualization and summary statistics.

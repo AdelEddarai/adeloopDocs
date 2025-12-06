@@ -1,0 +1,94 @@
+GitHub Integration Troubleshooting
+===================================
+
+ISSUE: Can't push files to GitHub (400 error)
+----------------------------------------------
+
+Check these in order:
+
+1. ✅ DATABASE SCHEMA
+   Run these commands:
+   ```
+   npx prisma generate
+   npx prisma db push
+   ```
+   
+   This adds the GitHub fields to your database.
+   Without this, you'll get a Prisma error.
+
+2. ✅ CLERK SCOPES
+   Go to Clerk Dashboard → GitHub settings
+   
+   Make sure you have:
+   ✅ read:user
+   ✅ user:email
+   ✅ repo (CRITICAL!)
+   
+   If "repo" is missing, add it and RECONNECT GitHub.
+
+3. ✅ CHECK CONSOLE LOGS
+   Look for these messages:
+   
+   ✅ "GitHub account found: oauth_github"
+   ✅ "GitHub token found, length: XX"
+   ✅ "Authenticated as: your-username"
+   
+   If you see:
+   ❌ "No GitHub account found" → Reconnect GitHub
+   ❌ "No access token found" → Check Clerk scopes
+   ❌ "403 access denied" → Missing "repo" scope
+
+4. ✅ RECONNECT GITHUB
+   If you added the "repo" scope after connecting:
+   
+   1. Disconnect GitHub in your app
+   2. Connect again
+   3. GitHub will ask for the new "repo" permission
+   4. Authorize it
+   5. Try pushing again
+
+5. ✅ CHECK GITHUB OAUTH APP
+   Go to: https://github.com/settings/developers
+   
+   Your OAuth App should show:
+   - Authorization callback URL: https://your-app.clerk.accounts.dev/v1/oauth_callback
+   - This must match EXACTLY what Clerk shows
+
+COMMON ERRORS:
+--------------
+
+Error: "GitHub account not connected"
+→ User hasn't connected GitHub yet
+→ Click "Connect with GitHub" button
+
+Error: "GitHub access token not found"
+→ Token expired or scope missing
+→ Reconnect GitHub with "repo" scope
+
+Error: "403 access denied"
+→ Missing "repo" scope in Clerk
+→ Add scope and reconnect
+
+Error: "422 repository already exists"
+→ Repository name is taken
+→ Choose a different name
+
+Error: Prisma error about githubRepo
+→ Database schema not updated
+→ Run: npx prisma generate && npx prisma db push
+
+DEBUGGING:
+----------
+
+Check browser console for:
+✅ Push request: {...} 
+✅ GitHub account found
+✅ GitHub token found
+✅ Authenticated as: username
+
+Check server logs for:
+❌ Any error messages with details
+
+If you see "400" with no other errors:
+→ Most likely Prisma schema issue
+→ Run the database commands above

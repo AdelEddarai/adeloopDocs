@@ -1,3 +1,11 @@
 {
-  "pages": ["adeloop", "examples", "dataframe-display", "multiple-datasets"]
+  "pages": [
+    "adeloop",
+    "examples",
+    "---Data Structures---",
+    "dataframe-display",
+    "multiple-datasets",
+    "---AI & Automation---",
+    "agents"
+  ]
 }

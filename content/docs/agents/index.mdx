@@ -1,0 +1,87 @@
+---
+title: AI Agents
+description: Build, orchestrate and deploy AI agents that automate workflows, connect apps, and act on your data.
+icon: Robot
+---
+import { AIWorkflowDemo } from '../../../components/ui/aiagentui'
+
+<AIWorkflowDemo />
+This page explains what Adeloop AI Agents are, how they work, and practical patterns to build reliable, production-ready agents that integrate with your apps and data.
+
+---
+
+## Executive summary
+
+AI Agents are autonomous or semi-autonomous services that observe events, retrieve relevant data (RAG), reason with models, and trigger actions across systems. Adeloop Agents combine connectors, memory, orchestration, and scheduling so teams can automate complex workflows while keeping control and auditability.
+
+---
+
+## Key capabilities
+
+- **Connectors:** Pre-built adapters for databases, APIs, cloud storage, GitHub, and more.
+- **RAG (Retrieval-Augmented Generation):** Use company data to ground model outputs and avoid hallucinations.
+- **Memory & State:** Store contextual information across runs to maintain continuity.
+- **Multi-step Workflows:** Chain actions with conditional logic, retries, and parallel branches.
+- **Scheduling & Triggers:** Event-driven or scheduled execution (webhooks, file drops, cron-like schedules).
+- **Observability:** Execution logs, monitoring, and alerting for failures or anomalous behavior.
+
+---
+
+## Architecture (conceptual)
+
+1. Ingest: Events or triggers (webhook, schedule, user action) start the flow.
+2. Retrieve: The agent fetches relevant knowledge via embeddings/search (RAG).
+3. Reason: The model evaluates the context and decides actions.
+4. Act: The agent performs API calls, database writes, notifications, or pushes code changes.
+5. Persist: Results, provenance, and memory are stored for later use and auditing.
+
+---
+
+## Building an agent — practical pattern
+
+1. Define the goal: clear success criteria and allowed actions.
+2. Provide reliable data: index documents, tables, and metadata used by RAG.
+3. Limit scope: start with a single, well-specified automation (e.g., triage support tickets).
+4. Add safety: input validation, rate limits, and approval steps for destructive actions.
+5. Monitor & iterate: surface failures, inspect logs, and refine prompts or retrieval.
+
+---
+
+## Example: Support ticket triage
+
+1. Trigger: New ticket webhook arrives.
+2. Retrieve: Search knowledge base and recent ticket history for context.
+3. Reason: Generate a suggested severity and classification.
+4. Act: Auto-assign to an engineer, add tags, and post a suggested reply to the ticket (optionally require human approval).
+
+Code sketch (conceptual):
+
+```python
+# Pseudocode - conceptual only
+def on_ticket_created(ticket):
+    context = retrieve_kb(ticket.text)
+    suggestion = model.generate("classify severity and suggest reply", context)
+    if suggestion.severity == "critical":
+        create_incident(ticket, suggestion)
+    else:
+        assign_ticket(ticket, suggestion.owner)
+```
+
+---
+
+## Best practices
+
+- **Least privilege:** Agents should only have scoped credentials for the systems they act on.
+- **Idempotency:** Design actions so retries are safe.
+- **Human-in-the-loop:** For high-risk actions, require approvals or staged rollout.
+- **Observability:** Store inputs, decisions, and outputs for every run.
+- **Test harnesses:** Simulate events and run agents in a sandbox before production.
+
+---
+
+## Roadmap & next steps
+
+- Pre-built domain agents (sales, finance, support)
+- Marketplace for agent templates and connectors
+- Multi-agent orchestration and delegation
+

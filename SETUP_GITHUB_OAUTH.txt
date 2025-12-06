@@ -1,0 +1,200 @@
+GitHub OAuth Setup with Clerk - Production Ready
+================================================
+
+This is the MODERN, PROFESSIONAL approach - no manual tokens needed!
+
+STEP 1: Get Clerk's Redirect URL
+---------------------------------
+1. Go to: https://dashboard.clerk.com
+2. Select your application
+3. Navigate to: "User & Authentication" → "Social Connections"
+4. Find "GitHub" and click "Configure"
+5. You'll see a "Redirect URI" - COPY THIS!
+   Example: https://your-app.clerk.accounts.dev/v1/oauth_callback
+   
+   ⚠️ IMPORTANT: This ONE URL works for BOTH localhost AND production!
+
+STEP 2: Create GitHub OAuth App
+--------------------------------
+You can use ANY GitHub account (doesn't need to match your Gmail):
+
+1. Go to: https://github.com/settings/developers
+2. Click "OAuth Apps" → "New OAuth App"
+3. Fill in:
+   
+   📝 Application name: "Your App Name" (e.g., "AdeloopLab")
+   
+   📝 Homepage URL: 
+      For development: http://localhost:3000
+      For production: https://your-domain.com
+      (You can change this later, doesn't matter much)
+   
+   📝 Authorization callback URL: 
+      ⚠️ PASTE THE REDIRECT URI FROM CLERK (Step 1)
+      Example: https://your-app.clerk.accounts.dev/v1/oauth_callback
+      
+      ✅ This ONE callback URL handles EVERYTHING:
+         - localhost:3000
+         - your-domain.com
+         - any other domain you add to Clerk
+
+4. Click "Register application"
+5. You'll see:
+   - Client ID: Copy this (looks like: Iv1.a1b2c3d4e5f6g7h8)
+   - Client secrets: Click "Generate a new client secret"
+   - Copy the secret (you'll only see it once!)
+
+STEP 3: Configure Clerk with GitHub Credentials
+------------------------------------------------
+1. Back in Clerk Dashboard → GitHub configuration
+2. Paste:
+   - Client ID: [from GitHub OAuth App]
+   - Client Secret: [from GitHub OAuth App]
+3. Under "Scopes", add these:
+   ✅ read:user (default)
+   ✅ user:email (default)
+   ✅ repo (CRITICAL - type this manually!)
+4. IMPORTANT Settings:
+   ✅ Enable for sign-up and sign-in: OFF (keep Google only)
+   ✅ Enable for account linking: ON (allows connecting after sign-in)
+5. Click "Save"
+
+STEP 4: Test Locally
+--------------------
+1. Run your app: npm run dev
+2. Sign in with Google (your existing flow)
+3. Go to GenIDE → Click GitHub icon
+4. Click "Connect with GitHub"
+5. Authorize the app
+6. Done!
+
+STEP 5: Production (When You Deploy)
+-------------------------------------
+✅ NO CHANGES NEEDED!
+The same GitHub OAuth App works for production automatically
+because Clerk's callback URL handles all domains.
+
+Just make sure your production domain is added in Clerk Dashboard.
+
+STEP 4: Verify Scopes (CRITICAL!)
+----------------------------------
+Make sure you have the "repo" scope enabled in Clerk:
+
+1. Clerk Dashboard → GitHub settings
+2. Look for "Scopes" section
+3. You should see:
+   ✅ read:user
+   ✅ user:email
+   ✅ repo (ADD THIS if not present!)
+
+Without "repo" scope, users can't create or push to repositories!
+
+STEP 5: Test the Flow
+----------------------
+1. User signs in with Google (your existing flow)
+2. Open GenIDE → Create/load a project
+3. Click GitHub icon in sidebar
+4. Click "Connect with GitHub" button
+5. Popup opens → GitHub OAuth page
+6. Authorize the app on GitHub
+7. Popup closes automatically
+8. See all your GitHub repositories!
+9. Choose: Create new repo OR Push to existing repo
+10. Push your code!
+
+TROUBLESHOOTING:
+----------------
+❌ "GitHub not connected" error
+   → Check "Enable for account linking" is ON in Clerk
+
+❌ "No repositories found"
+   → Check "repo" scope is enabled in Clerk
+
+❌ "Failed to push"
+   → Verify user authorized the "repo" scope on GitHub
+
+❌ Popup blocked
+   → Allow popups for your domain
+
+WHY THIS IS BETTER:
+-------------------
+✅ One-click authentication (no manual token copying)
+✅ Automatic token refresh (never expires)
+✅ Secure (tokens managed by Clerk)
+✅ Revocable (users can disconnect anytime)
+✅ Professional UX (like VS Code, Vercel, etc.)
+✅ No .env secrets needed for users
+✅ Works for all users automatically
+
+PRODUCTION READY! 🚀
+
+
+========================================
+QUICK ANSWERS TO YOUR QUESTIONS:
+========================================
+
+Q: Can I use a GitHub account different from my Gmail?
+A: YES! The GitHub account you use to create the OAuth App can be ANY account.
+   It doesn't need to match your Clerk/Gmail account.
+   Users will connect their OWN GitHub accounts when they use your app.
+
+Q: What do I put in "Homepage URL"?
+A: For now: http://localhost:3000
+   Later you can change it to: https://your-production-domain.com
+   This is just for display, doesn't affect functionality.
+
+Q: What do I put in "Authorization callback URL"?
+A: COPY the "Redirect URI" from Clerk Dashboard (Step 1)
+   Example: https://your-app.clerk.accounts.dev/v1/oauth_callback
+   
+   ⚠️ This is THE MOST IMPORTANT field!
+   ⚠️ Must be EXACTLY as shown in Clerk (including https://)
+   ⚠️ This ONE URL works for localhost AND production!
+
+Q: Do I need multiple OAuth Apps for localhost and production?
+A: NO! One OAuth App works for everything because Clerk's callback
+   URL is the same for all environments.
+
+========================================
+VISUAL GUIDE:
+========================================
+
+GitHub OAuth App Settings:
+┌─────────────────────────────────────────────┐
+│ Application name                            │
+│ ┌─────────────────────────────────────────┐ │
+│ │ AdeloopLab                              │ │
+│ └─────────────────────────────────────────┘ │
+│                                             │
+│ Homepage URL                                │
+│ ┌─────────────────────────────────────────┐ │
+│ │ http://localhost:3000                   │ │
+│ └─────────────────────────────────────────┘ │
+│                                             │
+│ Authorization callback URL ⚠️ IMPORTANT!    │
+│ ┌─────────────────────────────────────────┐ │
+│ │ https://your-app.clerk.accounts.dev/    │ │
+│ │ v1/oauth_callback                       │ │
+│ └─────────────────────────────────────────┘ │
+│                                             │
+│ [Register application]                      │
+└─────────────────────────────────────────────┘
+
+After registration, you'll get:
+┌─────────────────────────────────────────────┐
+│ Client ID                                   │
+│ Iv1.a1b2c3d4e5f6g7h8                       │
+│                                             │
+│ Client secrets                              │
+│ [Generate a new client secret]              │
+│                                             │
+│ After generating:                           │
+│ ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    │
+│ ⚠️ Copy this now! You won't see it again   │
+└─────────────────────────────────────────────┘
+
+Then paste both into Clerk Dashboard!
+
+========================================
+READY TO GO! 🚀
+========================================

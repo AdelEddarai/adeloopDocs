@@ -4,7 +4,10 @@ description: How to ingest CSV/Excel, internal and external databases into Adelo
 icon: Database
 ---
 
-![Data Ingestion](/data_ingest.png)
+import ToolsIntegration from '../../../components/ui/tools-integration'
+
+
+<ToolsIntegration />
 
 This short guide explains common ways to bring data into Adeloop so it can be used in notebooks or registered as datasets for other pages. It covers:
 
@@ -15,11 +18,80 @@ This short guide explains common ways to bring data into Adeloop so it can be us
 
 Security note: never store credentials in source control. Use environment variables or secrets management.
 
+
+![Data Ingestion](/data_ingest.png)
+
+## Data Ingestion Workflow
+
+```mermaid
+flowchart TD;
+  CSV["Import CSV / Excel files"];
+  NOTEBOOK["Analyze in Jupyter-like notebook"];
+  AI["AI assists: cleaning, EDA, modeling"];
+  GENIDE["Auto-generate dashboards (GenIDE)"];
+  SHARE["Share insights instantly"];
+
+  CSV --> NOTEBOOK;
+  NOTEBOOK --> AI;
+  AI --> GENIDE;
+  GENIDE --> SHARE;
+```
+
+### External sources (metadata-only integration)
+
+The platform connects to external databases using connectors that fetch data on-demand. Adeloop stores only connection metadata (endpoint, credentials, schema info, table lists, versions) — it does NOT persist external data in its own database. Notebooks request data through the platform's connector API which retrieves, streams, or previews rows directly from the source at query-time.
+
+```mermaid
+flowchart LR
+  UI[User / Notebook UI];
+  API[Adeloop Connector Service];
+  Metadata[Metadata Store];
+  Notebook[Notebook Runtime];
+  subgraph ExternalSources [External Databases];
+    PG[Postgres];
+    MY[MySQL];
+    MG[MongoDB];
+  end;
+
+  UI -->|configure connection| API;
+  API -->|save connection metadata| Metadata;
+  Notebook -->|select dataset / query| API;
+  API -->|on-demand fetch - no storage| PG;
+  API -->|on-demand fetch - no storage| MY;
+  API -->|on-demand fetch - no storage| MG;
+  API -->|return rows / stream| Notebook;
+  Metadata -.->|used for discovery & schema| UI;
+```
+
+### User Journey in Data Ingestion
+
+```mermaid
+journey
+    title Data Ingestion User Journey
+    section Discovery
+      Find data source: 5: User
+      Review source docs: 4: User
+    section Setup
+      Configure credentials: 3: User, DataEngineer
+      Test connection: 4: DataEngineer
+      Validate schema: 5: DataEngineer
+    section Integration
+      Ingest data: 5: System
+      Register dataset: 5: User
+      Create version: 5: System
+    section Verification
+      Run quality checks: 4: System
+      Approve for use: 5: User
+```
+
 ---
 
 ## 1) CSV & Excel (local / internal files)
 
 These are the simplest and work well inside notebooks.
+
+### CSV/Excel Ingestion Flow
+
 
 Python (pandas) examples you can run in a notebook:
 
@@ -44,7 +116,25 @@ Notes and tips:
 
 ## 2) Relational databases (Postgres, MySQL)
 
+Adeloop supports connecting to relational databases (Postgres, MySQL) via managed connectors. You register a connection in the UI (host, port, user, secret stored securely) and the platform saves only the connection metadata and schema/catalog information. When you open a notebook you can select a table or run an inspected query — the platform fetches rows on-demand and returns them to the notebook runtime. This means you do not need to install database drivers like `psycopg2` or `mysql-connector` inside the notebook environment for exploration and previewing.
+
+If you prefer to connect directly from a notebook (self-managed), you can still use standard drivers; however the recommended pattern inside Adeloop notebooks is to call the platform's data API or helper instead, for example (conceptual):
+
+```python
+# Conceptual example using the Adeloop connector API (no DB drivers required)
+from adeloop import data
+
+# 'my_postgres' is the connection name created in the Adeloop UI
+df = data.query("my_postgres", "SELECT * FROM my_schema.my_table LIMIT 1000")
+print(df.head())
+```
+
+The code above is pseudocode showing the pattern: select a registered connection by name and run a query through the platform. The platform handles the secure connection, streaming, and serialization back into a DataFrame-like object in the notebook.
+
 Use a DB driver plus SQLAlchemy for a consistent interface. Provide credentials via environment variables.
+
+### Database Connection Architecture
+
 
 Install required packages (example):
 
@@ -88,6 +178,25 @@ Tips:
 
 ## 3) MongoDB (document store)
 
+Adeloop also supports document stores like MongoDB through the same connector model. Register your MongoDB connection in the UI (connection string, auth details), and the system will index available collections and sample schemas as metadata. In notebooks you can select a collection or issue filtered queries via the platform API — no need to install `pymongo` in the notebook to preview or analyze documents.
+
+Conceptual example using the platform helper (no pymongo required):
+
+```python
+# Conceptual API - platform handles connection and streaming
+from adeloop import data
+
+# select the collection by connection name and collection id
+df = data.select_collection("my_mongo", "my_collection", limit=500)
+print(df.head())
+```
+
+Notes:
+- Documents can contain nested structures; the platform will return flattened rows or JSON blobs depending on the selected preview option. Use `pd.json_normalize` locally if you need specific normalization for complex nested documents.
+- For very large collections, the connector streams results and the notebook can iterate in batches.
+
+### NoSQL Document Pipeline
+
 Install the driver:
 
 ```bash
@@ -123,6 +232,8 @@ Notes:
 
 Snowflake provides a fast way to access large analytical datasets. Use the Snowflake Python connector or SQLAlchemy dialect.
 
+### Cloud Data Warehouse Flow
+
 Install packages:
 
 ```bash
@@ -155,29 +266,13 @@ Notes:
 - Credentials should come from secure stores or environment variables.
 - For repeated use, consider creating a view or a smaller extracted dataset.
 
----
-
-## 5) Reusing and publishing datasets
-
-After loading data in a notebook you may want to reuse it across notebooks or pages:
-
-- Save as Parquet for fast reload: `df.to_parquet("data/mydataset.parquet")`.
-- Save to a shared store or object storage (S3 / internal file share) and reference the path in other notebooks/pages.
-- If your platform supports registering datasets, follow the platform's dataset registration workflow (e.g., provide path, schema, and metadata).
-
-Example: save and reload
-
-```python
-# save
-df.to_parquet("/workspace/data/mydataset.parquet", index=False)
-
-# later, in any notebook
-df = pd.read_parquet("/workspace/data/mydataset.parquet")
-```
 
 ---
 
 ## 6) Best practices & security
+
+### Data Governance & Security Flow
+
 
 - Never hardcode credentials; use environment vars or secrets.
 - For production workloads, push heavy lifting (ingest, transformation) to jobs rather than interactive notebooks.
@@ -228,5 +323,3 @@ Notes and recommendations:
 If you'd like, I can add:
 - a small helper module that wraps save/push operations safely (e.g., `lib/data_connectors.py`), or
 - a short example notebook showing editable CSheet flow and pushing a small CSV to a repo.
-
-

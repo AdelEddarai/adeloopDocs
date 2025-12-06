@@ -60,9 +60,9 @@ export const baseOptions: BaseLayoutProps = {
         },
         {
           icon: <Server />,
-          text: "Python Examples",
-          description: "Practical examples for using Python in Adeloop notebooks.",
-          url: "/docs/examples",
+          text: "Adeloop Agent",
+          description: "AI Agent for data analytics and visualization.",
+          url: "/docs/agent",
           active: "nested-url",
           menu: {
             className: "lg:col-start-2",
