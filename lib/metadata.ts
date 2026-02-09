@@ -29,7 +29,35 @@ export function createMetadata(override: Metadata): Metadata {
   };
 }
 
-export const baseUrl =
-  process.env.NODE_ENV === "development" || !process.env.VERCEL_URL
-    ? new URL("http://localhost:3000")
-    : new URL("https://learn-the-web.vercel.app");
+// Determine the base URL based on environment
+function getBaseUrl(): URL {
+  // Check for explicit SITE_URL environment variable (highest priority)
+  if (process.env.SITE_URL) {
+    return new URL(process.env.SITE_URL);
+  }
+
+  // Check for Netlify URL (for Netlify deployments)
+  if (process.env.URL) {
+    return new URL(process.env.URL);
+  }
+
+  // Check for Netlify deploy URL
+  if (process.env.DEPLOY_PRIME_URL) {
+    return new URL(process.env.DEPLOY_PRIME_URL);
+  }
+
+  // Check for Vercel URL (for Vercel deployments)
+  if (process.env.VERCEL_URL) {
+    return new URL(`https://${process.env.VERCEL_URL}`);
+  }
+
+  // Production fallback - use the actual production domain
+  if (process.env.NODE_ENV === "production") {
+    return new URL("https://adeloopdoc.netlify.app");
+  }
+
+  // Development fallback
+  return new URL("http://localhost:3000");
+}
+
+export const baseUrl = getBaseUrl();

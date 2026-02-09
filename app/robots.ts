@@ -1,10 +1,12 @@
+import { baseUrl } from "@/lib/metadata";
+
 export default function robots() {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
     },
-    host: "https://adeloopdoc.netlify.app",
-    sitemap: "https://adeloopdoc.netlify.app/sitemap.xml",
+    host: baseUrl.toString(),
+    sitemap: new URL("/sitemap.xml", baseUrl).toString(),
   };
 }
