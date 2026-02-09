@@ -1,0 +1,9 @@
+{
+    "title": "Architecture",
+    "root": true,
+    "pages": [
+        "duckdb",
+        "rag",
+        "data-ingestion"
+    ]
+}

@@ -18,12 +18,35 @@ const geistMono = Geist_Mono({
 
 export const metadata = createMetadata({
   title: {
-    template: "%s | Adeloop - Analytics & BI Platform",
-    default: "Adeloop - Analytics & BI Platform",
+    template: "%s | Adeloop - AI-Powered Analytics Platform",
+    default: "Adeloop - Next-Gen AI Analytics & BI Platform",
   },
   description:
-    "Adeloop is a next-generation analytics and business intelligence platform designed to solve real, high-value pain points that businesses face today in data analytics, dashboards, and actionable insights.",
+    "Adeloop is a cloud-native analytics platform combining DuckDB performance with AI-driven insights (RAG). Analyze data from CSVs, Databases, and Warehouses with a Jupyter-like experience.",
   metadataBase: baseUrl,
+  keywords: ["Adeloop", "Analytics", "BI", "Business Intelligence", "DuckDB", "RAG", "AI Analytics", "Data Visualization", "Jupyter Notebook", "Cloud Analytics"],
+  openGraph: {
+    title: "Adeloop - Next-Gen AI Analytics & BI Platform",
+    description: "Analyze data from CSVs, Databases, and Warehouses with a Jupyter-like experience. Powered by DuckDB and AI.",
+    url: baseUrl,
+    siteName: "Adeloop Docs",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/notebook1.png",
+        width: 1200,
+        height: 630,
+        alt: "Adeloop Analytics Platform Dashboard",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Adeloop - AI-Powered Analytics",
+    description: "Cloud-native analytics platform combining DuckDB performance with AI-driven insights.",
+    images: ["/notebook1.png"],
+  },
 });
 
 export default function Layout({ children }: { children: ReactNode }) {

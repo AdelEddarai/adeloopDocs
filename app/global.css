@@ -6,135 +6,196 @@
 
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 
+/* Map shadcn/semantic "primary" to our CSS variables so bg-primary / text-primary-foreground work */
+@theme {
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+}
+
 @layer base {
-    :root {
-      /* Accent colors (Blue) */
-      --brand: 213 90% 56%;
-      --brand-foreground: 213 96% 61%;
-  
-      /* Softened light mode (replaces harsh white) */
-      --background: 40 20% 97%;
-      --foreground: 20 14.3% 4.1%;
-  
-      --card: 40 18% 95%;
-      --card-foreground: 20 14.3% 4.1%;
-  
-      --popover: 40 18% 95%;
-      --popover-foreground: 20 14.3% 4.1%;
-  
-      /* Primary = Blue */
-      --primary: 213 90% 56%;
-      --primary-foreground: 60 9.1% 97.8%;
-  
-      --secondary: 40 12% 92%;
-      --secondary-foreground: 24 9.8% 10%;
-  
-      --muted: 40 12% 92%;
-      --muted-foreground: 25 5.3% 44.7%;
-  
-      --accent: 40 12% 92%;
-      --accent-foreground: 24 9.8% 10%;
-  
-      --destructive: 0 84.2% 60.2%;
-      --destructive-foreground: 60 9.1% 97.8%;
-  
-      /* Stronger border so components are distinguishable */
-      --border: 40 10% 83%;
-      --input: 40 10% 83%;
-  
-      --ring: 213 90% 56%;
-  
-      --radius: 0.5rem;
-  
-      /* Charts */
-      --chart-1: 213 90% 56%;
-      --chart-2: 173 58% 39%;
-      --chart-3: 197 37% 24%;
-      --chart-4: 43 74% 66%;
-      --chart-5: 27 87% 67%;
-  
-      /* Illustrations */
-      --light: var(--brand);
-      --light-foreground: var(--brand-foreground);
-  
-      /* Shadows */
-      --shadow: #00000008;
-      --shadow-strong: #00000008;
-  
-      /* Sidebar (light) */
-      --sidebar-background: 40 18% 95%;
-      --sidebar-foreground: 240 5.3% 26.1%;
-      --sidebar-primary: 213 80% 45%;
-      --sidebar-primary-foreground: 0 0% 98%;
-      --sidebar-accent: 40 12% 92%;
-      --sidebar-accent-foreground: 240 5.9% 10%;
-      --sidebar-border: 40 10% 83%;
-      --sidebar-ring: 213 90% 56%;
-      --sidebar-width: 0px;
-    }
-  
-    .dark {
-      /* Accent (Blue) */
-      --brand: 213 90% 70%;
-      --brand-foreground: 213 96% 61%;
-  
-      /* Warm brown dark mode */
-      --background: 30 10% 10%;
-      --foreground: 0 0% 98%;
-  
-      --card: 30 10% 10%;
-      --card-foreground: 0 0% 98%;
-  
-      --popover: 30 10% 10%;
-      --popover-foreground: 0 0% 98%;
-  
-      /* Primary = Blue */
-      --primary: 213 90% 60%;
-      --primary-foreground: 0 0% 9%;
-  
-      /* Warm neutral surfaces */
-      --secondary: 30 10% 16%;
-      --secondary-foreground: 0 0% 98%;
-  
-      --muted: 30 10% 16%;
-      --muted-foreground: 0 0% 63.9%;
-      --accent: 30 10% 16%;
-      --accent-foreground: 0 0% 98%;
-  
-      --destructive: 0 62% 40%;
-      --destructive-foreground: 0 0% 98%;
-  
-      --border: 30 8% 18%;
-      --input: 30 8% 18%;
-  
-      --ring: 213 90% 60%;
-  
-      --label: 0 0% 20%;
-  
-      /* Charts (dark) */
-      --chart-1: 213 90% 56%;
-      --chart-2: 160 60% 45%;
-      --chart-3: 30 80% 55%;
-      --chart-4: 280 65% 60%;
-      --chart-5: 340 75% 55%;
-  
-      /* Sidebar warm-dark */
-      --sidebar-background: 30 10% 12%;
-      --sidebar-foreground: 0 0% 96%;
-      --sidebar-primary: 213 80% 55%;
-      --sidebar-primary-foreground: 0 0% 100%;
-      --sidebar-accent: 30 10% 18%;
-      --sidebar-accent-foreground: 0 0% 96%;
-      --sidebar-border: 30 10% 18%;
-      --sidebar-ring: 213 90% 60%;
-  
-      /* Illustrations */
-      --light: var(--foreground);
-      --light-foreground: var(--foreground);
-  
-      /* Shadows */
-      --shadow: #00000020;
-      --shadow-strong: #00000088;
-    }
+  :root {
+    /* Accent colors (Blue) */
+    --brand: 213 90% 56%;
+    --brand-foreground: 213 96% 61%;
+
+    /* Softened light mode (replaces harsh white) */
+    --background: 40 20% 97%;
+    --foreground: 20 14.3% 4.1%;
+
+    --card: 40 18% 95%;
+    --card-foreground: 20 14.3% 4.1%;
+
+    --popover: 40 18% 95%;
+    --popover-foreground: 20 14.3% 4.1%;
+
+    /* Primary = Blue */
+    --primary: 213 90% 56%;
+    --primary-foreground: 60 9.1% 97.8%;
+
+    --secondary: 40 12% 92%;
+    --secondary-foreground: 24 9.8% 10%;
+
+    --muted: 40 12% 92%;
+    --muted-foreground: 25 5.3% 44.7%;
+
+    --accent: 40 12% 92%;
+    --accent-foreground: 24 9.8% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    /* Stronger border so components are distinguishable */
+    --border: 40 10% 83%;
+    --input: 40 10% 83%;
+
+    --ring: 213 90% 56%;
+
+    --radius: 0.5rem;
+
+    /* Charts */
+    --chart-1: 213 90% 56%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    /* Illustrations */
+    --light: var(--brand);
+    --light-foreground: var(--brand-foreground);
+
+    /* Shadows */
+    --shadow: #00000008;
+    --shadow-strong: #00000008;
+
+    /* Sidebar (light) */
+    --sidebar-background: 40 18% 95%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 213 80% 45%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 40 12% 92%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 40 10% 83%;
+    --sidebar-ring: 213 90% 56%;
+    --sidebar-width: 0px;
+
+    /* VS Code IDE Theme (Light) */
+    --ide-bg: #ffffff;
+    --ide-sidebar-bg: #f3f3f3;
+    --ide-activity-bg: #2c2c2c;
+    --ide-activity-fg: #ffffff;
+    --ide-activity-fg-inactive: #ffffff66;
+    --ide-border: #e4e4e4;
+    --ide-fg-primary: #333333;
+    --ide-fg-secondary: #616161;
+    --ide-tab-bg-active: #ffffff;
+    --ide-tab-bg-inactive: #ececec;
+    --ide-hover: #e8e8e8;
+    --ide-accent: #007acc;
+    --ide-status-bg: #007acc;
+    --ide-status-fg: #ffffff;
+
+    /* Tooltip variables (added) */
+    --tooltip: 0 0% 20%;
+    /* gray tooltip bg */
+    --tooltip-foreground: 0 0% 98%;
+    /* white text */
   }
-  
+
+  .dark {
+    /* Accent (Blue) */
+    --brand: 213 90% 70%;
+    --brand-foreground: 213 96% 61%;
+
+    /* Warm brown dark mode */
+    --background: 30 10% 10%;
+    --foreground: 0 0% 98%;
+
+    /* VS Code IDE Theme (Dark) */
+    --ide-bg: #1e1e1e;
+    --ide-sidebar-bg: #252526;
+    --ide-activity-bg: #333333;
+    --ide-activity-fg: #ffffff;
+    --ide-activity-fg-inactive: #ffffff66;
+    --ide-border: #3c3c3c;
+    --ide-fg-primary: #cccccc;
+    --ide-fg-secondary: #858585;
+    --ide-tab-bg-active: #1e1e1e;
+    --ide-tab-bg-inactive: #2d2d2d;
+    --ide-hover: #2a2d2e;
+    --ide-accent: #0078d4;
+    --ide-status-bg: #007acc;
+    --ide-status-fg: #ffffff;
+
+    --card: 30 10% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 30 10% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary = Blue */
+    --primary: 213 90% 60%;
+    --primary-foreground: 0 0% 9%;
+
+    /* Warm neutral surfaces */
+    --secondary: 30 10% 16%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 30 10% 16%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 30 10% 16%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 30 8% 18%;
+    --input: 30 8% 18%;
+
+    --ring: 213 90% 60%;
+
+    --label: 0 0% 20%;
+
+    /* Charts (dark) */
+    --chart-1: 213 90% 56%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    /* Sidebar warm-dark */
+    --sidebar-background: 30 10% 12%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 213 80% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 10% 18%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 30 10% 18%;
+    --sidebar-ring: 213 90% 60%;
+
+    /* Additional VS Code-like colors */
+    --ide-selection: #264f78;
+    --ide-line-highlight: #ffffff0a;
+    --ide-badge-bg: #4d4d4d;
+    --ide-badge-fg: #ffffff;
+    --ide-minimap-bg: #1e1e1e;
+    --ide-breadcrumb-bg: #1e1e1e;
+    --ide-input-bg: #3c3c3c;
+    --ide-input-border: #3c3c3c;
+    --ide-dropdown-bg: #252526;
+    --ide-list-hover: #2a2d2e;
+    --ide-list-active: #094771;
+    --ide-editor-gutter: #1e1e1e;
+    --ide-diff-added: #3fb9501a;
+    --ide-diff-removed: #ff00001a;
+
+    /* Tooltip variables (added / dark mode) */
+    --tooltip: 0 0% 10%;
+    /* darker gray */
+    --tooltip-foreground: 0 0% 98%;
+    /* white text */
+
+    /* Shadows */
+    --shadow: #00000020;
+    --shadow-strong: #00000088;
+  }
+}

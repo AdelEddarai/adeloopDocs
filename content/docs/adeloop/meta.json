@@ -8,9 +8,6 @@
     "---Features---",
     "jupyter-features",
     "rich-output",
-    "execution-count",
-    "codeblock",
-    "---Data Integration---",
-    "ingest-data"
+    "codeblock"
   ]
 }

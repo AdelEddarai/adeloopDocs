@@ -1,326 +1,397 @@
 "use client"
 
-import React, { useEffect, useState, useRef } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState, useRef } from "react"
+import Image from "next/image"
+import Link from "next/link"
 import {
-  BookAIcon,
-  GraduationCapIcon,
-  ImageIcon,
-  LayoutDashboardIcon,
-  LayoutIcon,
-  PanelsTopLeftIcon,
-  SearchIcon,
-  ServerIcon,
-  ZapIcon,
+  BarChart3,
+  Brain,
   ArrowRightIcon,
-} from "lucide-react";
-import { HexBackground } from './HexBackground';
-import { Button } from '@/components/ui/button';
+  Sparkles,
+  Layers,
+  MessageSquare,
+  Workflow,
+} from "lucide-react"
+import { HexBackground } from "./HexBackground"
+import { Button } from "@/components/ui/button"
+import Footer from "./Footer"
+import {
+  DuckDBFlowIllustration,
+  RAGFlowIllustration,
+  DataIngestionIllustration,
+  AgentWorkflowIllustration,
+} from "./illustrations/DataIllustrations"
 
+const gettingStarted = "/notebook1.png"
 
-// Placeholder for the main hero image
-const gettingStarted = "/notebook1.png"; // High res placeholder
-
-const Link: React.FC<{ href: string; className?: string; children: React.ReactNode }> = ({ href, className, children }) => (
-  <a href={href} className={className}>
-    {children}
-  </a>
-);
-
-// --- Scroll Animation Component ---
-const FadeIn: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({ children, delay = 0, className = "" }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
+function FadeIn({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode
+  delay?: number
+  className?: string
+}) {
+  const [visible, setVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect(); // Only animate once
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
+    const ob = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        setVisible(true)
+        ob.disconnect()
+      }
+    }, { threshold: 0.06 })
+    if (ref.current) ob.observe(ref.current)
+    return () => ob.disconnect()
+  }, [])
   return (
     <div
       ref={ref}
-      className={`transition-all duration-1000 transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      } ${className}`}
+      className={`transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"} ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>
-  );
-};
-
-export default function LandingPage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return (
-    <div className="relative w-full overflow-hidden min-h-screen flex flex-col bg-transparent text-white selection:bg-green-500/30">
-      {/* Background Layer */}
-      <HexBackground />
-
-      {/* Hero Section */}
-      <main className="relative z-10 max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
-        
-        {/* Hero Card */}
-        <div className="bg-transparent md:bg-[#0a0a0a]/40 backdrop-blur-xl border-0 md:border md:border-white/10 rounded-[2.5rem] md:p-12 lg:p-16 relative md:shadow-2xl overflow-visible">
-           
-          {/* Main Layout: Column on all screens, centered */}
-          <div className="flex flex-col gap-16 items-center text-center">
-            
-            {/* Text Content */}
-            <div className={`w-full max-w-4xl mx-auto space-y-8 flex flex-col items-center transition-all duration-1000 transform ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/20 bg-green-500/10 backdrop-blur-md text-xs font-mono text-green-400 shadow-[0_0_15px_-3px_rgba(16,185,129,0.2)]">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                v2.0 is now live
-              </div>
-              
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]">
-                <span className="block animate-fade-up" style={{ animationDelay: '0.1s' }}>Next-Generation</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-100 to-green-400 bg-[length:200%_auto] animate-text-shimmer block mt-2 pb-2">
-                   Analytics & BI Platform
-                </span>
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-gray-400 text-pretty leading-relaxed max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: '0.2s' }}>
-                Adeloop empowers technical and non-technical users to make data-driven decisions. 
-                Move from raw data to actionable insights with our high-performance engine.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-                <Link
-                  href="/docs/adeloop"
-                  className="inline-flex h-14 items-center justify-center rounded-full bg-green-500 px-10 text-base font-semibold text-black shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)] transition-all hover:scale-105 hover:bg-green-400 hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.6)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-500"
-                >
-                  View Documentation
-                </Link>
-                <Link
-                  href="mailto:adeleddarai29@gmail.com"
-                  className="inline-flex h-14 items-center justify-center rounded-full border border-white/20 bg-white/5 px-10 text-base font-medium text-white shadow-sm transition-all hover:bg-white/10 hover:border-white/30 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
-                >
-                  Contact Sales
-                </Link>
-              </div>
-            </div>
-
-            {/* Hero Image / Graphic */}
-            <div className={`w-full max-w-6xl relative group perspective-1000 transition-all duration-1000 delay-200 transform ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-              
-              {/* Glow Effect behind image */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-[2rem] blur-3xl opacity-40 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
-              
-              {/* Border Beam Container - NEW IMPLEMENTATION */}
-              <div className="relative p-[2px] rounded-2xl overflow-hidden bg-transparent shadow-2xl">
-                
-                {/* Rotating Conic Gradient Layer */}
-                <div 
-                  className="absolute inset-[-50%] animate-spin-slow"
-                  style={{
-                    background: 'conic-gradient(transparent 60deg, #10b981 180deg, transparent 300deg)',
-                  }}
-                />
-
-                {/* Inner Image Container (Masks the spinner center) */}
-                <div className="relative rounded-[14px] bg-[#0a0a0a] overflow-hidden">
-                    <Image
-                      src={gettingStarted}
-                      alt="Adeloop Dashboard"
-                      width={1200}
-                      height={720}
-                      priority
-                      className="w-full h-auto object-cover select-none rounded-[14px] opacity-100 border border-white/5"
-                    />
-                    {/* Glossy Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none" />
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        {/* Features Navigation */}
-        <div className="mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <FadeIn delay={100} className="h-full">
-            <div className="p-10 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm hover:border-green-500/30 transition-colors group h-full">
-              <p className="font-mono text-sm text-green-400 mb-4 tracking-wider uppercase">Explore Features</p>
-              <h2 className="text-3xl font-bold mb-4 text-white group-hover:text-green-400 transition-colors">AdeloopLab Ecosystem</h2>
-              <p className="text-gray-400 mb-8 text-lg leading-relaxed">
-                Discover how Adeloop addresses key business challenges. From data integration to real-time insights, 
-                explore our comprehensive suite of tools designed for the modern data stack.
-              </p>
-               <div className="flex flex-wrap gap-3">
-                   {['Data Integration', 'Real-time Analytics', 'AI Agents', 'Visual Pipelines'].map((tag) => (
-                      <span key={tag} className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-white/10 transition-colors cursor-default">
-                          {tag}
-                      </span>
-                   ))}
-               </div>
-            </div>
-          </FadeIn>
-
-          <div className="flex flex-col gap-6">
-             <FadeIn delay={200}>
-              <Link
-                href="/docs/adeloop"
-                className="group relative flex items-center justify-between p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300"
-              >
-                <div className="flex items-center gap-6">
-                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-green-500/20 to-blue-500/10 flex items-center justify-center text-green-400 ring-1 ring-white/10 group-hover:scale-110 transition-transform">
-                      <PanelsTopLeftIcon className="size-7" />
-                  </div>
-                  <div>
-                      <h3 className="text-xl font-bold text-white mb-1">Adeloop Platform</h3>
-                      <p className="text-base text-gray-400">Core analytics engine & dashboarding</p>
-                  </div>
-                </div>
-                <ArrowRightIcon className="size-6 text-gray-500 group-hover:text-green-400 group-hover:translate-x-2 transition-all" />
-              </Link>
-             </FadeIn>
-
-             <FadeIn delay={300}>
-              <Link
-                href="/docs/agents"
-                className="group relative flex items-center justify-between p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300"
-              >
-                <div className="flex items-center gap-6">
-                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/10 flex items-center justify-center text-purple-400 ring-1 ring-white/10 group-hover:scale-110 transition-transform">
-                      <ServerIcon className="size-7" />
-                  </div>
-                  <div>
-                      <h3 className="text-xl font-bold text-white mb-1">Adeloop Agent</h3>
-                      <p className="text-base text-gray-400">AI-driven automation & reasoning</p>
-                  </div>
-                </div>
-                <ArrowRightIcon className="size-6 text-gray-500 group-hover:text-purple-400 group-hover:translate-x-2 transition-all" />
-              </Link>
-             </FadeIn>
-          </div>
-        </div>
-
-        {/* Feature Grid / Why Adeloop */}
-        <div id="highlights" className="mt-24">
-             <FadeIn>
-               <div className="mb-12 text-center">
-                  <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-                      Why Choose Adeloop?
-                  </h2>
-                  <div className="h-1 w-20 bg-green-500 mx-auto rounded-full"></div>
-               </div>
-             </FadeIn>
-             
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1px] bg-white/10 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                {features.map((feature, index) => (
-                    <FadeIn key={index} delay={index * 50} className="h-full">
-                      <div 
-                          className="bg-[#0e0e10] p-8 hover:bg-[#161618] transition-colors duration-300 group relative h-full"
-                      >
-                          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                          <div className="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 text-green-400 ring-1 ring-white/10 group-hover:bg-green-500/10 transition-colors">
-                              {feature.icon}
-                          </div>
-                          <h3 className="text-lg font-bold mb-3 text-white">{feature.title}</h3>
-                          <p className="text-gray-400 leading-relaxed text-sm">
-                              {feature.description}
-                          </p>
-                      </div>
-                    </FadeIn>
-                ))}
-             </div>
-        </div>
-
-        {/* CTA Footer */}
-        <FadeIn delay={200}>
-          <div className="mt-24 rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 to-[#0a0a0a] backdrop-blur-sm p-16 text-center relative overflow-hidden group">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-1/2 bg-green-500/10 blur-[100px] rounded-full pointer-events-none group-hover:bg-green-500/20 transition-colors duration-700"></div>
-              
-              <div className="relative z-10 max-w-3xl mx-auto space-y-8">
-                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
-                      Ready to Transform Your Data?
-                  </h2>
-                  <p className="text-gray-400 text-xl max-w-2xl mx-auto">
-                      Experience the power of Adeloop's analytics platform. Join thousands of teams making smarter decisions today.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-5 justify-center pt-4">
-                      <Button size="lg" className="h-14 px-10 text-base font-bold bg-white text-black hover:bg-gray-200">
-                          Get Started Now
-                      </Button>
-                      <Button variant="outline" size="lg" className="h-14 px-10 text-base border-white/20 hover:bg-white/10">
-                          Schedule Demo
-                      </Button>
-                  </div>
-              </div>
-          </div>
-        </FadeIn>
-
-      </main>
-    </div>
-  );
+  )
 }
 
-const features = [
-  {
-    title: "Developer Documentation",
-    description: "Comprehensive documentation with MDX support built specifically for developers to integrate fast.",
-    icon: <BookAIcon className="size-6" />,
-  },
-  {
-    title: "Intelligent Search",
-    description: "Built-in AI semantic search capabilities to quickly find the specific context you need.",
-    icon: <SearchIcon className="size-6" />,
-  },
-  {
-    title: "Visual Pipelines",
-    description: "Automatically generate visual representations of your data flow and dependencies.",
-    icon: <ImageIcon className="size-6" />,
-  },
-  {
-    title: "Responsive Dashboard",
-    description: "Optimized for all screen sizes, ensuring a seamless experience on tablets and mobile.",
-    icon: <LayoutIcon className="size-6" />,
-  },
-  {
-    title: "Clean Modern UI",
-    description: "Modern interface focused on readability, dark mode support, and superior user experience.",
-    icon: <LayoutDashboardIcon className="size-6" />,
-  },
-  {
-    title: "High Performance",
-    description: "Optimized for speed and SEO visibility, helping your reports load instantly.",
-    icon: <ZapIcon className="size-6" />,
-  },
-  {
-    title: "Data Quality Engine",
-    description: "Built-in data cleansing, pre-built connectors, and anomaly detection.",
-    icon: <ServerIcon className="size-6" />,
-  },
-  {
-    title: "Self-Service Analytics",
-    description: "Drag-and-drop dashboards with natural language querying capabilities.",
-    icon: <PanelsTopLeftIcon className="size-6" />,
-  },
-  {
-    title: "AI-Guided Insights",
-    description: "Automated guided insights and trend recommendations for all business users.",
-    icon: <GraduationCapIcon className="size-6" />,
-  },
-];
+export default function LandingPage() {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+
+  return (
+    <div className="relative min-h-screen w-full overflow-hidden bg-transparent text-foreground selection:bg-primary/20 selection:text-primary flex flex-col">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.4] invert dark:invert-0">
+        <HexBackground />
+      </div>
+
+      <main className="relative z-10 flex-1 w-full max-w-[1120px] mx-auto px-5 sm:px-8">
+
+        {/* Hero */}
+        <section className="pt-14 sm:pt-20 pb-16 sm:pb-24 lg:pb-32">
+          <div className="flex flex-col items-center text-center">
+            <FadeIn>
+              <Link
+                href="/docs/adeloop"
+                className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-medium text-foreground/95 hover:bg-primary/15 hover:border-primary/40 transition-colors"
+              >
+                <Sparkles className="size-4 text-primary" />
+                AI-native · DuckDB · RAG
+                <ArrowRightIcon className="size-3.5 opacity-70" />
+              </Link>
+            </FadeIn>
+
+            <FadeIn delay={100}>
+              <h1 className="mt-10 text-[2.1rem] sm:text-4xl md:text-5xl lg:text-[3.1rem] font-bold tracking-tight text-foreground leading-[1.08] max-w-4xl mx-auto">
+                Next-Generation
+                <br />
+                <span className="text-primary">Analytics & BI Platform</span>
+              </h1>
+            </FadeIn>
+
+            <FadeIn delay={180}>
+              <p className="mt-6 max-w-xl mx-auto text-sm sm:text-base text-muted-foreground leading-relaxed">
+                One workspace for SQL, natural language, and GenAI. Build dashboards and ship insights without switching tools.
+              </p>
+            </FadeIn>
+
+            <FadeIn delay={260}>
+              <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+                <Link href="/docs/adeloop">
+                  <Button
+                    size="lg"
+                    className="h-11 rounded-full px-7 text-[15px] font-semibold bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--primary))]/90 transition-colors"
+                  >
+                    Get started
+                    <ArrowRightIcon className="ml-2 size-4" />
+                  </Button>
+                </Link>
+                <Link href="mailto:adeleddarai29@gmail.com">
+                  <Button variant="outline" size="lg" className="h-11 rounded-full px-7 text-[15px] font-medium">
+                    Contact sales
+                  </Button>
+                </Link>
+              </div>
+            </FadeIn>
+
+            <div
+              className={`mt-14 sm:mt-18 w-full max-w-4xl mx-auto transition-all duration-800 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+            >
+              <div className="rounded-xl overflow-hidden border border-border bg-background/80 ring-1 ring-border/50">
+                <div className="flex items-center gap-2 border-b border-border bg-muted/30 px-4 py-2.5">
+                  <div className="flex gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
+                  </div>
+                  <span className="text-[11px] text-muted-foreground font-medium mx-auto -ml-8">
+                    Adeloop
+                  </span>
+                </div>
+                <Image
+                  src={gettingStarted}
+                  alt="Adeloop platform"
+                  width={1100}
+                  height={620}
+                  priority
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Bento features */}
+        <section className="py-4 sm:py-6">
+          <FadeIn>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+              <Link
+                href="/docs/adeloop"
+                className="group flex flex-col rounded-2xl border border-border bg-card/60 p-6 sm:p-7 hover:bg-card hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/15 text-primary mb-4">
+                  <BarChart3 className="size-6" />
+                </div>
+                <h3 className="text-sm sm:text-[15px] font-semibold text-foreground mb-1.5">Analytics at scale</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  DuckDB-powered SQL. Sub-second queries on massive datasets.
+                </p>
+                <span className="mt-4 inline-flex items-center text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  Learn more
+                  <ArrowRightIcon className="ml-1 size-4" />
+                </span>
+              </Link>
+
+              <Link
+                href="/docs/architecture/rag"
+                className="group flex flex-col rounded-2xl border border-border bg-card/60 p-6 sm:p-7 hover:bg-card hover:border-primary/30 transition-all duration-300 md:mt-0"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/15 text-primary mb-4">
+                  <Brain className="size-6" />
+                </div>
+                <h3 className="text-sm sm:text-[15px] font-semibold text-foreground mb-1.5">GenAI & RAG</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Ask in plain language. Get charts, insights, and narratives from your data.
+                </p>
+                <span className="mt-4 inline-flex items-center text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  Learn more
+                  <ArrowRightIcon className="ml-1 size-4" />
+                </span>
+              </Link>
+
+              <Link
+                href="/docs/adeloop"
+                className="group flex flex-col rounded-2xl border border-border bg-card/60 p-6 sm:p-7 hover:bg-card hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/15 text-primary mb-4">
+                  <Workflow className="size-6" />
+                </div>
+                <h3 className="text-sm sm:text-[15px] font-semibold text-foreground mb-1.5">Unified pipelines</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  ETL, notebooks, and dashboards in one place. No context switching.
+                </p>
+                <span className="mt-4 inline-flex items-center text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  Learn more
+                  <ArrowRightIcon className="ml-1 size-4" />
+                </span>
+              </Link>
+            </div>
+          </FadeIn>
+        </section>
+
+        {/* How it works — illustrations */}
+        <section id="highlights" className="pt-12 sm:pt-16 pb-14 sm:pb-20 scroll-mt-20">
+          <FadeIn>
+            <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground text-center mb-2">
+              How it works
+            </h2>
+            <p className="text-muted-foreground text-center text-sm sm:text-[15px] max-w-lg mx-auto mb-10">
+              Architecture and flows from the docs, at a glance.
+            </p>
+          </FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+            <FadeIn delay={0}>
+              <Link
+                href="/docs/architecture/duckdb"
+                className="group flex flex-col h-full rounded-2xl border-2 border-border bg-card/60 p-6 hover:bg-card hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="w-full min-h-[100px] flex items-center justify-center rounded-xl border border-border/60 bg-muted/50 p-4 mb-4 text-foreground overflow-visible">
+                  <DuckDBFlowIllustration />
+                </div>
+                <h3 className="text-sm sm:text-[15px] font-semibold text-foreground mb-1">DuckDB architecture</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Client → API → DuckDB. Server-side SQL and Python interoperability.
+                </p>
+                <span className="mt-auto pt-3 inline-flex items-center text-xs font-medium text-primary">
+                  Read in docs
+                  <ArrowRightIcon className="ml-1 size-3.5" />
+                </span>
+              </Link>
+            </FadeIn>
+            <FadeIn delay={50}>
+              <Link
+                href="/docs/architecture/rag"
+                className="group flex flex-col h-full rounded-2xl border-2 border-border bg-card/60 p-6 hover:bg-card hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="w-full min-h-[100px] flex items-center justify-center rounded-xl border border-border/60 bg-muted/50 p-4 mb-4 text-foreground overflow-visible">
+                  <RAGFlowIllustration />
+                </div>
+                <h3 className="text-sm sm:text-[15px] font-semibold text-foreground mb-1">RAG & GenAI flow</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Docs → embed → vector DB → LLM → grounded answers.
+                </p>
+                <span className="mt-auto pt-3 inline-flex items-center text-xs font-medium text-primary">
+                  Read in docs
+                  <ArrowRightIcon className="ml-1 size-3.5" />
+                </span>
+              </Link>
+            </FadeIn>
+            <FadeIn delay={100}>
+              <Link
+                href="/docs/architecture/data-ingestion"
+                className="group flex flex-col h-full rounded-2xl border-2 border-border bg-card/60 p-6 hover:bg-card hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="w-full min-h-[100px] flex items-center justify-center rounded-xl border border-border/60 bg-muted/50 p-4 mb-4 text-foreground overflow-visible">
+                  <DataIngestionIllustration />
+                </div>
+                <h3 className="text-sm sm:text-[15px] font-semibold text-foreground mb-1">Data ingestion</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Files and external DBs → unified import → validation → storage.
+                </p>
+                <span className="mt-auto pt-3 inline-flex items-center text-xs font-medium text-primary">
+                  Read in docs
+                  <ArrowRightIcon className="ml-1 size-3.5" />
+                </span>
+              </Link>
+            </FadeIn>
+            <FadeIn delay={150}>
+              <Link
+                href="/docs/agents"
+                className="group flex flex-col h-full rounded-2xl border-2 border-border bg-card/60 p-6 hover:bg-card hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="w-full min-h-[100px] flex items-center justify-center rounded-xl border border-border/60 bg-muted/50 p-4 mb-4 text-foreground overflow-visible">
+                  <AgentWorkflowIllustration />
+                </div>
+                <h3 className="text-sm sm:text-[15px] font-semibold text-foreground mb-1">AI agents</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Trigger → retrieve (RAG) → reason → act → persist.
+                </p>
+                <span className="mt-auto pt-3 inline-flex items-center text-xs font-medium text-primary">
+                  Read in docs
+                  <ArrowRightIcon className="ml-1 size-3.5" />
+                </span>
+              </Link>
+            </FadeIn>
+          </div>
+        </section>
+
+        {/* Capabilities + CTA block */}
+        <section className="pt-12 sm:pt-16 pb-20 sm:pb-28">
+          <div className="rounded-2xl border border-border bg-card/40 p-8 sm:p-10 lg:p-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+              <FadeIn>
+                <div>
+                  <h2 className="text-lg sm:text-xl font-bold tracking-tight text-foreground">
+                    Built for data teams
+                  </h2>
+                  <p className="mt-3 text-muted-foreground text-sm sm:text-[15px] leading-relaxed max-w-md">
+                    Natural language to SQL, semantic RAG, versioned spreadsheets, and real-time dependency graphs—all in one platform.
+                  </p>
+                  <ul className="mt-6 space-y-3">
+                    {[
+                      { icon: MessageSquare, text: "Natural language to SQL" },
+                      { icon: Brain, text: "Semantic RAG over docs & data" },
+                      { icon: Layers, text: "Versioned spreadsheets (CSheet)" },
+                      { icon: Workflow, text: "Real-time dependency graphs" },
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-center gap-3 text-xs sm:text-sm font-medium text-foreground/90">
+                        <item.icon className="size-4 text-primary shrink-0" />
+                        {item.text}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeIn>
+              <FadeIn delay={100}>
+                <div className="rounded-xl border border-border bg-background/70 p-4 sm:p-5 space-y-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    Explore in docs
+                  </p>
+                  <div className="space-y-2">
+                    <Link
+                      href="/docs/architecture/duckdb"
+                      className="group block rounded-lg px-3 py-2.5 hover:bg-accent/60 transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 text-primary">
+                          <BarChart3 className="size-4" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-xs sm:text-[13px] font-medium leading-snug">DuckDB & SQL engine</p>
+                          <p className="text-[11px] text-muted-foreground leading-snug">
+                            Server-side SQL and Python interoperability.
+                          </p>
+                        </div>
+                        <ArrowRightIcon className="mt-1 size-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                      </div>
+                    </Link>
+                    <Link
+                      href="/docs/architecture/rag"
+                      className="group block rounded-lg px-3 py-2.5 hover:bg-accent/60 transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 text-primary">
+                          <Brain className="size-4" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-xs sm:text-[13px] font-medium leading-snug">RAG & GenAI</p>
+                          <p className="text-[11px] text-muted-foreground leading-snug">
+                            Retrieval-augmented chat over your docs & data.
+                          </p>
+                        </div>
+                        <ArrowRightIcon className="mt-1 size-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="pb-24 sm:pb-32">
+          <FadeIn>
+            <div className="rounded-2xl border border-border bg-primary/5 py-12 sm:py-16 px-6 sm:px-10 text-center">
+              <h2 className="text-base sm:text-lg lg:text-xl font-bold tracking-tight text-foreground">
+                Ready to ship better analytics?
+              </h2>
+              <p className="mt-2 text-sm sm:text-[15px] text-muted-foreground max-w-md mx-auto">
+                Get started with the docs or talk to us for a walkthrough.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <Link href="/docs/adeloop">
+                  <Button
+                    size="lg"
+                    className="h-11 rounded-full px-7 text-[15px] font-semibold bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--primary))]/90 transition-colors"
+                  >
+                    Get started
+                    <ArrowRightIcon className="ml-2 size-4" />
+                  </Button>
+                </Link>
+                <Link href="mailto:adeleddarai29@gmail.com">
+                  <Button variant="outline" size="lg" className="h-11 rounded-full px-7 text-[15px] font-medium">
+                    Contact sales
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  )
+}
