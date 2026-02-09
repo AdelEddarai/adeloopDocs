@@ -26,6 +26,10 @@ export function createMetadata(override: Metadata): Metadata {
       images: "/og-image.png",
       ...override.twitter,
     },
+    other: {
+      "google-site-verification": "jwCuOJVBgD3jYqsISRs-VSJKzXYvtQYel_mVuy5nkJ8",
+      ...override.other,
+    },
   };
 }
 

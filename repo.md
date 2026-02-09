@@ -306,3 +306,7 @@ Calculates and animates:
 - Responsive design: Sidebar hidden on mobile, drawer instead
 - All navigation links support prefetching for better performance
 - MDX files auto-generated via `postinstall` hook
+
+
+
+google-site-verification=jwCuOJVBgD3jYqsISRs-VSJKzXYvtQYel_mVuy5nkJ8

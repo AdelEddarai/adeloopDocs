@@ -59,7 +59,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <head>
         <meta
           name="google-site-verification"
-          content=""
+          content="jwCuOJVBgD3jYqsISRs-VSJKzXYvtQYel_mVuy5nkJ8"
         />
       </head>
       <body className="flex flex-col min-h-screen">
