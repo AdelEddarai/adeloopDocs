@@ -190,112 +190,112 @@ export function AIWorkflowDemo() {
         <div className="flex-1 w-full space-y-6 min-w-0">
           {/* Workflow Canvas Area */}
           <div className="group relative">
-             <div className="absolute -inset-0.5 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-700"></div>
-             <div className="relative pb-4">
-               <div className="w-full mx-auto aspect-[650/200] relative rounded-2xl border border-zinc-800/60 bg-zinc-950/30 overflow-hidden backdrop-blur-md">
-                 {/* Decorative Grid */}
-                 <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
-                   style={{ backgroundImage: 'linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(90deg, #3b82f6 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-                 
-                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 650 200" preserveAspectRatio="xMidYMid meet">
-                   {connections.map((c, i) => {
-                     const from = nodes[c.from];
-                     const to = nodes[c.to];
-                     const sx = from.x + 50, sy = from.y, ex = to.x - 50, ey = to.y;
-                     const mx = (sx + ex) / 2;
-                     const path = `M ${sx} ${sy} C ${sx + (mx - sx) * 0.5} ${sy}, ${ex - (ex - mx) * 0.5} ${ey}, ${ex} ${ey}`;
-                     const status = getLineStatus(c.from, c.to);
+            <div className="absolute -inset-0.5 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-700"></div>
+            <div className="relative pb-4 overflow-x-auto scrollbar-hide">
+              <div className="min-w-[650px] lg:min-w-0 w-full mx-auto aspect-[650/200] relative rounded-2xl border border-zinc-800/60 bg-zinc-950/30 overflow-hidden backdrop-blur-md">
+                {/* Decorative Grid */}
+                <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
+                  style={{ backgroundImage: 'linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(90deg, #3b82f6 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
-                     return (
-                       <g key={i}>
-                         <path
-                           d={path}
-                           fill="none"
-                           strokeWidth={2.5}
-                           className={cn(
-                             "transition-all duration-500",
-                             status === "idle" && "stroke-zinc-800/50",
-                             status === "active" && "stroke-blue-500 [stroke-dasharray:8,4] animate-[dash_1s_infinite_linear]",
-                             status === "done" && "stroke-emerald-500/30"
-                           )}
-                         />
-                         {status === "active" && <Particles from={from} to={to} />}
-                       </g>
-                     );
-                   })}
-                 </svg>
+                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 650 200" preserveAspectRatio="xMidYMid meet">
+                  {connections.map((c, i) => {
+                    const from = nodes[c.from];
+                    const to = nodes[c.to];
+                    const sx = from.x + 50, sy = from.y, ex = to.x - 50, ey = to.y;
+                    const mx = (sx + ex) / 2;
+                    const path = `M ${sx} ${sy} C ${sx + (mx - sx) * 0.5} ${sy}, ${ex - (ex - mx) * 0.5} ${ey}, ${ex} ${ey}`;
+                    const status = getLineStatus(c.from, c.to);
 
-                 <div className="absolute inset-0 pointer-events-none">
-                   {nodes.map((node, i) => {
-                     const status = getStatus(i);
-                     const Icon = node.icon;
+                    return (
+                      <g key={i}>
+                        <path
+                          d={path}
+                          fill="none"
+                          strokeWidth={2.5}
+                          className={cn(
+                            "transition-all duration-500",
+                            status === "idle" && "stroke-zinc-800/50",
+                            status === "active" && "stroke-blue-500 [stroke-dasharray:8,4] animate-[dash_1s_infinite_linear]",
+                            status === "done" && "stroke-emerald-500/30"
+                          )}
+                        />
+                        {status === "active" && <Particles from={from} to={to} />}
+                      </g>
+                    );
+                  })}
+                </svg>
 
-                     return (
-                       <div
-                         key={node.id}
-                         className="absolute"
-                         style={{ 
-                           left: `${(node.x / 650) * 100}%`, 
-                           top: `${(node.y / 200) * 100}%`, 
-                           transform: "translate(-50%, -50%)" 
-                         }}
-                       >
-                         <div
-                           className={cn(
-                             "relative flex w-[96px] items-center gap-2 rounded-xl border-2 bg-zinc-900/90 p-2 transition-all duration-500 shadow-xl",
-                             status === "idle" && "border-zinc-800 opacity-40 scale-95",
-                             status === "active" && "border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-110 z-20",
-                             status === "done" && "border-emerald-500/40 opacity-100 scale-100"
-                           )}
-                         >
-                           {status === "active" && (
-                             <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
-                               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-blue-400/10 to-transparent animate-shimmer" />
-                             </div>
-                           )}
+                <div className="absolute inset-0 pointer-events-none">
+                  {nodes.map((node, i) => {
+                    const status = getStatus(i);
+                    const Icon = node.icon;
 
-                           <div
-                             className={cn(
-                               "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors shadow-inner",
-                               status === "idle" && "bg-zinc-800",
-                               status === "active" && "bg-blue-600/20 text-blue-400",
-                               status === "done" && "bg-emerald-600/20 text-emerald-400"
-                             )}
-                           >
-                             <Icon className="h-5 w-5" />
-                           </div>
+                    return (
+                      <div
+                        key={node.id}
+                        className="absolute"
+                        style={{
+                          left: `${(node.x / 650) * 100}%`,
+                          top: `${(node.y / 200) * 100}%`,
+                          transform: "translate(-50%, -50%)"
+                        }}
+                      >
+                        <div
+                          className={cn(
+                            "relative flex w-[96px] items-center gap-2 rounded-xl border-2 bg-zinc-900/90 p-2 transition-all duration-500 shadow-xl",
+                            status === "idle" && "border-zinc-800 opacity-40 scale-95",
+                            status === "active" && "border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-110 z-20",
+                            status === "done" && "border-emerald-500/40 opacity-100 scale-100"
+                          )}
+                        >
+                          {status === "active" && (
+                            <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
+                              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-blue-400/10 to-transparent animate-shimmer" />
+                            </div>
+                          )}
 
-                           <div className="min-w-0 flex-1">
-                             <p className="truncate text-[11px] font-bold tracking-tight text-zinc-100">{node.title}</p>
-                             <p className={cn(
-                               "truncate text-[9px] font-semibold uppercase tracking-wider",
-                               status === "active" ? "text-blue-400 animate-pulse" : "text-zinc-500"
-                             )}>
-                               {node.subtitle}
-                             </p>
-                           </div>
+                          <div
+                            className={cn(
+                              "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors shadow-inner",
+                              status === "idle" && "bg-zinc-800",
+                              status === "active" && "bg-blue-600/20 text-blue-400",
+                              status === "done" && "bg-emerald-600/20 text-emerald-400"
+                            )}
+                          >
+                            <Icon className="h-5 w-5" />
+                          </div>
 
-                           <div
-                             className={cn(
-                               "absolute -right-1.5 -top-1.5 h-3.5 w-3.5 rounded-full border-2 border-zinc-900 transition-all duration-300 shadow-lg",
-                               status === "idle" && "bg-zinc-700",
-                               status === "active" && "bg-blue-500 ring-4 ring-blue-500/20",
-                               status === "done" && "bg-emerald-500"
-                             )}
-                           />
-                         </div>
-                       </div>
-                     );
-                   })}
-                 </div>
-               </div>
-               
-               {/* Mobile scroll hint */}
-               <div className="flex lg:hidden items-center justify-center gap-2 mt-2 text-[10px] text-zinc-600 font-bold uppercase tracking-widest">
-                 <MousePointer2 className="h-3 w-3" />
-                 Swipe to explore workflow
-               </div>
-             </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-[11px] font-bold tracking-tight text-zinc-100">{node.title}</p>
+                            <p className={cn(
+                              "truncate text-[9px] font-semibold uppercase tracking-wider",
+                              status === "active" ? "text-blue-400 animate-pulse" : "text-zinc-500"
+                            )}>
+                              {node.subtitle}
+                            </p>
+                          </div>
+
+                          <div
+                            className={cn(
+                              "absolute -right-1.5 -top-1.5 h-3.5 w-3.5 rounded-full border-2 border-zinc-900 transition-all duration-300 shadow-lg",
+                              status === "idle" && "bg-zinc-700",
+                              status === "active" && "bg-blue-500 ring-4 ring-blue-500/20",
+                              status === "done" && "bg-emerald-500"
+                            )}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Mobile scroll hint */}
+              <div className="flex lg:hidden items-center justify-center gap-2 mt-2 text-[10px] text-zinc-600 font-bold uppercase tracking-widest">
+                <MousePointer2 className="h-3 w-3" />
+                Swipe to explore workflow
+              </div>
+            </div>
           </div>
 
           {/* Terminal Section */}
@@ -411,8 +411,8 @@ export function AIWorkflowDemo() {
             >
               <div className="flex items-center gap-4">
                 <div className="relative">
-                   <div className="absolute inset-0 bg-emerald-500 blur-md opacity-20 group-hover:opacity-40 transition-opacity" />
-                   <div className="relative h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  <div className="absolute inset-0 bg-emerald-500 blur-md opacity-20 group-hover:opacity-40 transition-opacity" />
+                  <div className="relative h-2.5 w-2.5 rounded-full bg-emerald-500" />
                 </div>
                 <span className="text-xs text-emerald-400 font-black uppercase tracking-widest">Workflow Ready</span>
               </div>
@@ -424,8 +424,8 @@ export function AIWorkflowDemo() {
 
       <footer className="w-full max-w-7xl pt-8 pb-12 px-4 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-zinc-900">
         <div className="flex items-center gap-4 opacity-40 hover:opacity-100 transition-opacity">
-           <div className="h-2 w-2 rounded-full bg-blue-500" />
-           <span className="text-[10px] font-mono tracking-tighter text-zinc-400 uppercase">System Status: Optimal</span>
+          <div className="h-2 w-2 rounded-full bg-blue-500" />
+          <span className="text-[10px] font-mono tracking-tighter text-zinc-400 uppercase">System Status: Optimal</span>
         </div>
         <div className="text-zinc-700 text-[10px] font-mono uppercase tracking-[0.3em]">
           &copy; 2024 AI Workflow • Engine v2.4

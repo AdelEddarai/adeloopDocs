@@ -150,31 +150,31 @@ const AnimatedBeam: React.FC<BeamProps> = ({ startX, startY, endX, endY, delay }
       <svg className="w-full h-full overflow-visible">
         <defs>
           <linearGradient id={`grad-${startX}-${startY}`} gradientUnits="userSpaceOnUse" x1={startX} y1={startY} x2={endX} y2={endY}>
-             <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-             <stop offset="20%" stopColor="#10b981" stopOpacity="1" />
-             <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+            <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
+            <stop offset="20%" stopColor="#10b981" stopOpacity="1" />
+            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
           </linearGradient>
-          
+
           {/* Mask for the comet effect */}
           <mask id={`mask-${startX}-${startY}`}>
-             <motion.path
-                d={pathD}
-                fill="none"
-                stroke="white"
-                strokeWidth="3"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, pathOffset: 1 }} // Start hidden (offset 1 means pushed off end)
-                animate={{ pathLength: [0, 0.3, 0], pathOffset: [0, 0, 0] }} // This logic is tricky with pathOffset, let's use dasharray
-             />
+            <motion.path
+              d={pathD}
+              fill="none"
+              stroke="white"
+              strokeWidth="3"
+              strokeLinecap="round"
+              initial={{ pathLength: 0, pathOffset: 1 }} // Start hidden (offset 1 means pushed off end)
+              animate={{ pathLength: [0, 0.3, 0], pathOffset: [0, 0, 0] }} // This logic is tricky with pathOffset, let's use dasharray
+            />
           </mask>
         </defs>
 
         {/* 1. Static dim path (The track) */}
-        <path 
-            d={pathD} 
-            fill="none" 
-            stroke="rgba(255,255,255,0.05)" 
-            strokeWidth="1" 
+        <path
+          d={pathD}
+          fill="none"
+          stroke="rgba(255,255,255,0.05)"
+          strokeWidth="1"
         />
 
         {/* 2. Traveling Particle/Comet 
@@ -193,9 +193,9 @@ const AnimatedBeam: React.FC<BeamProps> = ({ startX, startY, endX, endY, delay }
           // 0 offset means the dash starts at the beginning.
           // Negative offset moves the dash "forward" along the path.
           initial={{ strokeDashoffset: 0, opacity: 0 }}
-          animate={{ 
+          animate={{
             strokeDashoffset: [0, -500], // Approx length of curve
-            opacity: [0, 1, 0] 
+            opacity: [0, 1, 0]
           }}
           transition={{
             duration: 2,
@@ -205,27 +205,27 @@ const AnimatedBeam: React.FC<BeamProps> = ({ startX, startY, endX, endY, delay }
             repeatDelay: 0.5
           }}
         />
-        
+
         {/* 3. Small glowing dot at the head of the stream for extra "tech" feel */}
-         <motion.circle 
-           r="2" 
-           fill="#10b981"
-           cx={endX}
-           cy={endY}
-           initial={{ opacity: 0 }}
-           animate={{ 
-             cx: [startX, endX],
-             cy: [startY, endY],
-             opacity: [0, 1, 0] 
-           }}
-           transition={{
+        <motion.circle
+          r="2"
+          fill="#10b981"
+          cx={endX}
+          cy={endY}
+          initial={{ opacity: 0 }}
+          animate={{
+            cx: [startX, endX],
+            cy: [startY, endY],
+            opacity: [0, 1, 0]
+          }}
+          transition={{
             duration: 2,
             ease: "easeInOut",
             repeat: Infinity,
             delay: delay,
             repeatDelay: 0.5
-           }}
-         />
+          }}
+        />
       </svg>
     </div>
   );
@@ -237,6 +237,8 @@ const AnimatedBeam: React.FC<BeamProps> = ({ startX, startY, endX, endY, delay }
 
 export default function ToolsIntegration() {
   const [isAnimating, setIsAnimating] = React.useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -246,16 +248,32 @@ export default function ToolsIntegration() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width } = entry.contentRect;
+        const newScale = Math.min(width / CANVAS_WIDTH, 1);
+        setScale(newScale);
+      }
+    });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="relative w-full py-20 overflow-hidden flex flex-col items-center justify-center">
-      
+
       {/* Ambient Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.05),transparent_70%)] pointer-events-none" />
-      
+
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mb-10 w-full">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-zinc-300 text-xs font-medium mb-4 backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Universal Connector
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-white/10 bg-white/5 text-zinc-400 text-[10px] font-semibold mb-4 backdrop-blur-sm">
+          <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+          Universal Connector
         </div>
         <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4">
           Integrated Data <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">Adeloop</span>
@@ -270,133 +288,136 @@ export default function ToolsIntegration() {
         We use a strict width/height container that scales down on mobile.
         This preserves the exact coordinate mapping between HTML elements and SVGs.
       */}
-      <div className="w-full flex justify-center overflow-visible my-8">
-        <div 
-          className="relative shrink-0 origin-center md:origin-top transform scale-[0.5] sm:scale-[0.7] md:scale-100 transition-transform duration-500"
-          style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
+      <div
+        ref={containerRef}
+        className="w-full flex justify-center overflow-visible my-8"
+        style={{ height: CANVAS_HEIGHT * scale }}
+      >
+        <div
+          className="relative shrink-0 origin-top transform transition-transform duration-500"
+          style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT, scale: scale }}
         >
-          
+
           {/* --- CENTER HUB --- */}
-          <div 
+          <div
             className="absolute z-30"
-            style={{ 
-              top: CENTER_Y - HUB_SIZE / 2, 
-              left: CENTER_X - HUB_SIZE / 2, 
-              width: HUB_SIZE, 
-              height: HUB_SIZE 
+            style={{
+              top: CENTER_Y - HUB_SIZE / 2,
+              left: CENTER_X - HUB_SIZE / 2,
+              width: HUB_SIZE,
+              height: HUB_SIZE
             }}
           >
-             <motion.div 
-               initial={{ scale: 0.8, opacity: 0 }}
-               whileInView={{ scale: 1, opacity: 1 }}
-               viewport={{ once: true }}
-               transition={{ duration: 0.8 }}
-               className="relative w-full h-full"
-             >
-                {/* Spinning Rings */}
-                <div className="absolute inset-[-20px] rounded-full border border-emerald-500/10 animate-[spin_8s_linear_infinite]" />
-                <div className="absolute inset-[-40px] rounded-full border border-blue-500/10 animate-[spin_12s_linear_infinite_reverse] opacity-50" />
-                
-                {/* Glow - Pulses when animating */}
-                <motion.div 
-                  className="absolute inset-0 rounded-full bg-emerald-500/20 blur-3xl"
-                  animate={{
-                    opacity: isAnimating ? [0.2, 0.5, 0.2] : 0.2,
-                    scale: isAnimating ? [1, 1.15, 1] : 1,
-                  }}
-                  transition={{
-                    duration: 2,
-                    ease: "easeInOut",
-                  }}
-                />
-                
-                {/* Core Body */}
-                <motion.div 
-                  className="absolute inset-0 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 border border-zinc-700 shadow-2xl flex items-center justify-center"
-                  animate={{
-                    boxShadow: isAnimating 
-                      ? ["0 0 0 rgba(16,185,129,0)", "0 0 30px rgba(16,185,129,0.4)", "0 0 0 rgba(16,185,129,0)"]
-                      : "0 0 0 rgba(16,185,129,0)"
-                  }}
-                  transition={{
-                    duration: 2,
-                    ease: "easeInOut",
-                  }}
-                >
-                   <div className="absolute inset-2 rounded-full border border-white/5" />
-                   <div className="relative p-6 rounded-full shadow-inner border border-white/5">
-                      <AdeloopIcon className="w-20 h-20" />
-                   </div>
-                </motion.div>
-             </motion.div>
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative w-full h-full"
+            >
+              {/* Spinning Rings */}
+              <div className="absolute inset-[-20px] rounded-full border border-emerald-500/10 animate-[spin_8s_linear_infinite]" />
+              <div className="absolute inset-[-40px] rounded-full border border-blue-500/10 animate-[spin_12s_linear_infinite_reverse] opacity-50" />
 
-             {/* Label */}
-             <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 text-center w-40">
-                <p className="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-1">Control Plane</p>
-                <p className="text-white font-bold text-lg">Adeloop Core</p>
-             </div>
+              {/* Glow - Pulses when animating */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-emerald-500/20 blur-3xl"
+                animate={{
+                  opacity: isAnimating ? [0.2, 0.5, 0.2] : 0.2,
+                  scale: isAnimating ? [1, 1.15, 1] : 1,
+                }}
+                transition={{
+                  duration: 2,
+                  ease: "easeInOut",
+                }}
+              />
+
+              {/* Core Body */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-gradient-to-b from-zinc-800 to-zinc-950 border border-zinc-700 shadow-2xl flex items-center justify-center"
+                animate={{
+                  boxShadow: isAnimating
+                    ? ["0 0 0 rgba(16,185,129,0)", "0 0 30px rgba(16,185,129,0.4)", "0 0 0 rgba(16,185,129,0)"]
+                    : "0 0 0 rgba(16,185,129,0)"
+                }}
+                transition={{
+                  duration: 2,
+                  ease: "easeInOut",
+                }}
+              >
+                <div className="relative p-6 rounded-full flex items-center justify-center">
+                  <AdeloopIcon className="w-20 h-20" />
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Label */}
+            <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 text-center w-40">
+              <p className="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-1">Control Plane</p>
+              <p className="text-white font-bold text-lg">Adeloop Core</p>
+            </div>
           </div>
 
 
           {/* --- LEFT SIDE (Sources) --- */}
           {LEFT_TOOLS.map((tool, i) => {
-             const y = CENTER_Y + ITEM_Y_OFFSETS[i];
-             return (
-               <React.Fragment key={tool.id}>
-                 <motion.div
-                   initial={{ opacity: 0, x: -30 }}
-                   whileInView={{ opacity: 1, x: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ delay: i * 0.1 }}
-                 >
-                    <ToolCard 
-                        {...tool} 
-                        x={LEFT_CARD_X} 
-                        y={y} 
-                        side="left" 
-                    />
-                 </motion.div>
-                 {/* Connection Beam (Starts at Right Dot, Ends at Hub Left) */}
-                 <AnimatedBeam 
-                    startX={LEFT_DOT_X} 
-                    startY={y} 
-                    endX={HUB_LEFT_CONNECTION_X} 
-                    endY={CENTER_Y} 
-                    delay={i * 0.2}
-                 />
-               </React.Fragment>
-             );
+            const y = CENTER_Y + ITEM_Y_OFFSETS[i];
+            return (
+              <React.Fragment key={tool.id}>
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <ToolCard
+                    {...tool}
+                    x={LEFT_CARD_X}
+                    y={y}
+                    side="left"
+                  />
+                </motion.div>
+                {/* Connection Beam (Starts at Right Dot, Ends at Hub Left) */}
+                <AnimatedBeam
+                  startX={LEFT_DOT_X}
+                  startY={y}
+                  endX={HUB_LEFT_CONNECTION_X}
+                  endY={CENTER_Y}
+                  delay={i * 0.2}
+                />
+              </React.Fragment>
+            );
           })}
 
 
           {/* --- RIGHT SIDE (Destinations) --- */}
           {RIGHT_TOOLS.map((tool, i) => {
-             const y = CENTER_Y + ITEM_Y_OFFSETS[i];
-             return (
-               <React.Fragment key={tool.id}>
-                 <motion.div
-                   initial={{ opacity: 0, x: 30 }}
-                   whileInView={{ opacity: 1, x: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ delay: 0.4 + i * 0.1 }}
-                 >
-                    <ToolCard 
-                        {...tool} 
-                        x={RIGHT_CARD_X} 
-                        y={y} 
-                        side="right" 
-                    />
-                 </motion.div>
-                 {/* Connection Beam (Starts at Left Dot of Right Card, Ends at Hub Right) */}
-                 <AnimatedBeam 
-                    startX={RIGHT_DOT_X} 
-                    startY={y} 
-                    endX={HUB_RIGHT_CONNECTION_X} 
-                    endY={CENTER_Y} 
-                    delay={0.4 + i * 0.2}
-                 />
-               </React.Fragment>
-             );
+            const y = CENTER_Y + ITEM_Y_OFFSETS[i];
+            return (
+              <React.Fragment key={tool.id}>
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 + i * 0.1 }}
+                >
+                  <ToolCard
+                    {...tool}
+                    x={RIGHT_CARD_X}
+                    y={y}
+                    side="right"
+                  />
+                </motion.div>
+                {/* Connection Beam (Starts at Left Dot of Right Card, Ends at Hub Right) */}
+                <AnimatedBeam
+                  startX={RIGHT_DOT_X}
+                  startY={y}
+                  endX={HUB_RIGHT_CONNECTION_X}
+                  endY={CENTER_Y}
+                  delay={0.4 + i * 0.2}
+                />
+              </React.Fragment>
+            );
           })}
 
         </div>

@@ -15,7 +15,7 @@ export function DuckDBFlowIllustration({ className }: { className?: string }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: "100%", height: "100%", minHeight: "80px" }}
+      style={{ width: "100%", height: "auto" }}
       preserveAspectRatio="xMidYMid meet"
       aria-hidden
     >
@@ -50,7 +50,7 @@ export function RAGFlowIllustration({ className }: { className?: string }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: "100%", height: "100%", minHeight: "80px" }}
+      style={{ width: "100%", height: "auto" }}
       preserveAspectRatio="xMidYMid meet"
       aria-hidden
     >
@@ -93,7 +93,7 @@ export function DataIngestionIllustration({ className }: { className?: string })
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: "100%", height: "100%", minHeight: "80px" }}
+      style={{ width: "100%", height: "auto" }}
       preserveAspectRatio="xMidYMid meet"
       aria-hidden
     >
@@ -134,7 +134,7 @@ export function AgentWorkflowIllustration({ className }: { className?: string })
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: "100%", height: "100%", minHeight: "80px" }}
+      style={{ width: "100%", height: "auto" }}
       preserveAspectRatio="xMidYMid meet"
       aria-hidden
     >

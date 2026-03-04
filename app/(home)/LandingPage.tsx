@@ -11,6 +11,7 @@ import {
   Layers,
   MessageSquare,
   Workflow,
+  BookOpen,
 } from "lucide-react"
 import { HexBackground } from "./HexBackground"
 import { Button } from "@/components/ui/button"
@@ -20,6 +21,7 @@ import {
   RAGFlowIllustration,
   DataIngestionIllustration,
   AgentWorkflowIllustration,
+  SemanticLayerIllustration,
 } from "./illustrations/DataIllustrations"
 
 const gettingStarted = "/notebook1.png"
@@ -66,7 +68,7 @@ export default function LandingPage() {
         <HexBackground />
       </div>
 
-      <main className="relative z-10 flex-1 w-full max-w-[1120px] mx-auto px-5 sm:px-8">
+      <main className="relative z-10 flex-1 w-full max-w-[1280px] mx-auto px-5 sm:px-8">
 
         {/* Hero */}
         <section className="pt-14 sm:pt-20 pb-16 sm:pb-24 lg:pb-32">
@@ -74,16 +76,16 @@ export default function LandingPage() {
             <FadeIn>
               <Link
                 href="/docs/adeloop"
-                className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-medium text-foreground/95 hover:bg-primary/15 hover:border-primary/40 transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-foreground/95 hover:bg-primary/15 hover:border-primary/40 transition-colors"
               >
-                <Sparkles className="size-4 text-primary" />
+                <Sparkles className="size-3.5 text-primary" />
                 AI-native · DuckDB · RAG
-                <ArrowRightIcon className="size-3.5 opacity-70" />
+                <ArrowRightIcon className="size-3 opacity-70" />
               </Link>
             </FadeIn>
 
             <FadeIn delay={100}>
-              <h1 className="mt-10 text-[2.1rem] sm:text-4xl md:text-5xl lg:text-[3.1rem] font-bold tracking-tight text-foreground leading-[1.08] max-w-4xl mx-auto">
+              <h1 className="mt-10 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-foreground leading-[1.1] max-w-4xl mx-auto">
                 Next-Generation
                 <br />
                 <span className="text-primary">Analytics & BI Platform</span>
@@ -91,7 +93,7 @@ export default function LandingPage() {
             </FadeIn>
 
             <FadeIn delay={180}>
-              <p className="mt-6 max-w-xl mx-auto text-sm sm:text-base text-muted-foreground leading-relaxed">
+              <p className="mt-6 max-w-xl mx-auto text-sm sm:text-[15px] text-muted-foreground leading-relaxed tracking-tight">
                 One workspace for SQL, natural language, and GenAI. Build dashboards and ship insights without switching tools.
               </p>
             </FadeIn>
@@ -100,15 +102,14 @@ export default function LandingPage() {
               <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
                 <Link href="/docs/adeloop">
                   <Button
-                    size="lg"
-                    className="h-11 rounded-full px-7 text-[15px] font-semibold bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--primary))]/90 transition-colors"
+                    className="h-9 rounded-full px-5 text-xs font-semibold bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--primary))]/90 transition-colors"
                   >
                     Get started
-                    <ArrowRightIcon className="ml-2 size-4" />
+                    <ArrowRightIcon className="ml-1.5 size-3" />
                   </Button>
                 </Link>
                 <Link href="mailto:adeleddarai29@gmail.com">
-                  <Button variant="outline" size="lg" className="h-11 rounded-full px-7 text-[15px] font-medium">
+                  <Button variant="outline" className="h-9 rounded-full px-5 text-xs font-medium">
                     Contact sales
                   </Button>
                 </Link>
@@ -116,27 +117,25 @@ export default function LandingPage() {
             </FadeIn>
 
             <div
-              className={`mt-14 sm:mt-18 w-full max-w-4xl mx-auto transition-all duration-800 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              className={`mt-14 sm:mt-18 w-full max-w-7xl mx-auto transition-all duration-800 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
             >
-              <div className="rounded-xl overflow-hidden border border-border bg-background/80 ring-1 ring-border/50">
-                <div className="flex items-center gap-2 border-b border-border bg-muted/30 px-4 py-2.5">
-                  <div className="flex gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-                  </div>
-                  <span className="text-[11px] text-muted-foreground font-medium mx-auto -ml-8">
-                    Adeloop
-                  </span>
+              <div className="relative rounded-[16px] p-[1.5px] overflow-hidden shadow-2xl isolate group cursor-default">
+                {/* Animated Border Background */}
+                <div className="absolute inset-[-100%] transition-opacity duration-500 animate-[spin_4s_linear_infinite]"
+                  style={{ background: 'conic-gradient(from 0deg, transparent 0 340deg, hsl(var(--primary)) 360deg)' }} />
+
+                {/* Inner Window Wrapper */}
+                <div className="relative bg-background rounded-[14.5px] overflow-hidden transition-transform duration-500 group-hover:scale-[0.995]">
+
+                  <Image
+                    src={gettingStarted}
+                    alt="Adeloop platform"
+                    width={1400}
+                    height={785}
+                    priority
+                    className="w-full h-auto object-cover"
+                  />
                 </div>
-                <Image
-                  src={gettingStarted}
-                  alt="Adeloop platform"
-                  width={1100}
-                  height={620}
-                  priority
-                  className="w-full h-auto object-cover"
-                />
               </div>
             </div>
           </div>
@@ -287,72 +286,75 @@ export default function LandingPage() {
         </section>
 
         {/* Capabilities + CTA block */}
-        <section className="pt-12 sm:pt-16 pb-20 sm:pb-28">
-          <div className="rounded-2xl border border-border bg-card/40 p-8 sm:p-10 lg:p-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+        <section className="pt-20 sm:pt-28 pb-20 sm:pb-32">
+          <div className="rounded-3xl border border-border bg-card/30 p-8 sm:p-12 lg:p-16 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50" />
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <FadeIn>
-                <div>
-                  <h2 className="text-lg sm:text-xl font-bold tracking-tight text-foreground">
-                    Built for data teams
-                  </h2>
-                  <p className="mt-3 text-muted-foreground text-sm sm:text-[15px] leading-relaxed max-w-md">
-                    Natural language to SQL, semantic RAG, versioned spreadsheets, and real-time dependency graphs—all in one platform.
-                  </p>
-                  <ul className="mt-6 space-y-3">
+                <div className="space-y-8">
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider mb-6">
+                      <Layers className="size-3" />
+                      Semantic & ETL
+                    </div>
+                    <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground leading-[1.1]">
+                      Built for <span className="text-primary">Data Engineers</span> & Teams
+                    </h2>
+                    <p className="mt-6 text-muted-foreground text-base sm:text-lg leading-relaxed max-w-xl opacity-90">
+                      Adeloop bridges the gap between raw data and AI insights. Build versioned semantic layers, automate real-time ETL triggers, and ship unified analytics.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {[
-                      { icon: MessageSquare, text: "Natural language to SQL" },
-                      { icon: Brain, text: "Semantic RAG over docs & data" },
-                      { icon: Layers, text: "Versioned spreadsheets (CSheet)" },
-                      { icon: Workflow, text: "Real-time dependency graphs" },
+                      { icon: MessageSquare, title: "AI-Powered SQL", text: "Natural language to sub-second DuckDB queries." },
+                      { icon: Brain, title: "Semantic RAG", text: "Map business logic to your data structure." },
+                      { icon: Workflow, title: "Live Automation", text: "Real-time AI triggers for high-volume streams." },
+                      { icon: Layers, title: "Modern ETL", text: "Scale beyond spreadsheets with pythonic flows." },
                     ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-xs sm:text-sm font-medium text-foreground/90">
-                        <item.icon className="size-4 text-primary shrink-0" />
-                        {item.text}
-                      </li>
+                      <div key={i} className="space-y-2">
+                        <div className="flex items-center gap-2.5">
+                          <item.icon className="size-4.5 text-primary" />
+                          <h4 className="text-sm font-bold">{item.title}</h4>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{item.text}</p>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-4 pt-4">
+                    <Link href="/docs/adeloop">
+                      <Button className="h-10 rounded-full px-6 text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90">
+                        Get started
+                        <ArrowRightIcon className="ml-2 size-3.5" />
+                      </Button>
+                    </Link>
+                    <Link href="/blog">
+                      <Button variant="outline" className="h-10 rounded-full px-6 text-xs font-bold gap-2">
+                        <BookOpen className="size-3.5" />
+                        Explore our Blog
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </FadeIn>
+
               <FadeIn delay={100}>
-                <div className="rounded-xl border border-border bg-background/70 p-4 sm:p-5 space-y-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                    Explore in docs
-                  </p>
-                  <div className="space-y-2">
-                    <Link
-                      href="/docs/architecture/duckdb"
-                      className="group block rounded-lg px-3 py-2.5 hover:bg-accent/60 transition-colors"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 text-primary">
-                          <BarChart3 className="size-4" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-xs sm:text-[13px] font-medium leading-snug">DuckDB & SQL engine</p>
-                          <p className="text-[11px] text-muted-foreground leading-snug">
-                            Server-side SQL and Python interoperability.
-                          </p>
-                        </div>
-                        <ArrowRightIcon className="mt-1 size-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                <div className="relative">
+                  <div className="absolute -inset-10 bg-primary/10 blur-[80px] rounded-full opacity-20 animate-pulse" />
+                  <div className="relative rounded-2xl border border-border/60 bg-background/50 p-6 sm:p-8 shadow-2xl backdrop-blur-sm group-hover:border-primary/20 transition-all duration-500">
+                    <div className="flex items-center justify-between mb-8 pb-4 border-b border-border/40">
+                      <div className="flex gap-1.5">
+                        <div className="size-2.5 rounded-full bg-red-400/20 border border-red-400/30" />
+                        <div className="size-2.5 rounded-full bg-yellow-400/20 border border-yellow-400/30" />
+                        <div className="size-2.5 rounded-full bg-green-400/20 border border-green-400/30" />
                       </div>
-                    </Link>
-                    <Link
-                      href="/docs/architecture/rag"
-                      className="group block rounded-lg px-3 py-2.5 hover:bg-accent/60 transition-colors"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 text-primary">
-                          <Brain className="size-4" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-xs sm:text-[13px] font-medium leading-snug">RAG & GenAI</p>
-                          <p className="text-[11px] text-muted-foreground leading-snug">
-                            Retrieval-augmented chat over your docs & data.
-                          </p>
-                        </div>
-                        <ArrowRightIcon className="mt-1 size-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                      </div>
-                    </Link>
+                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Semantic Flow</span>
+                    </div>
+                    <div className="w-full">
+                      <SemanticLayerIllustration />
+                    </div>
                   </div>
                 </div>
               </FadeIn>
@@ -373,15 +375,14 @@ export default function LandingPage() {
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <Link href="/docs/adeloop">
                   <Button
-                    size="lg"
-                    className="h-11 rounded-full px-7 text-[15px] font-semibold bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--primary))]/90 transition-colors"
+                    className="h-9 rounded-full px-5 text-xs font-semibold bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--primary))]/90 transition-colors"
                   >
                     Get started
-                    <ArrowRightIcon className="ml-2 size-4" />
+                    <ArrowRightIcon className="ml-1.5 size-3" />
                   </Button>
                 </Link>
                 <Link href="mailto:adeleddarai29@gmail.com">
-                  <Button variant="outline" size="lg" className="h-11 rounded-full px-7 text-[15px] font-medium">
+                  <Button variant="outline" className="h-9 rounded-full px-5 text-xs font-medium">
                     Contact sales
                   </Button>
                 </Link>

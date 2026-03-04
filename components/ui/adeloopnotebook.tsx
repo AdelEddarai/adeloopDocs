@@ -171,7 +171,7 @@ export function JupyterIllustration() {
         <div className="flex flex-col gap-8 lg:gap-12 w-full">
           {/* Top: copy about Adeloop + AI */}
           <div className="space-y-4 sm:space-y-5 max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-2.5 py-0.5 text-[10px] font-semibold text-muted-foreground">
               <Sparkles className="h-3 w-3 text-primary" />
               AI-native Jupyter notebooks, fully managed
             </div>
@@ -189,7 +189,7 @@ export function JupyterIllustration() {
               <li className="flex gap-2 group">
                 <span className="mt-1 h-1.5 w-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex-shrink-0" />
                 <span className="text-muted-foreground group-hover:text-foreground transition-colors">
-                 Upload ipynb extension and continue doing data analysis with the help of AI
+                  Upload ipynb extension and continue doing data analysis with the help of AI
                 </span>
               </li>
               <li className="flex gap-2 group">
@@ -224,7 +224,7 @@ export function JupyterIllustration() {
                   </div>
                   <div
                     className={cn(
-                      "flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium transition-all duration-300",
+                      "flex items-center gap-1 sm:gap-1.5 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold transition-all duration-300",
                       isRunning ? "bg-cyan-500/10 text-cyan-500" : "bg-muted/60 text-muted-foreground dark:bg-zinc-800/50 dark:text-zinc-500",
                     )}
                   >
@@ -245,7 +245,7 @@ export function JupyterIllustration() {
                   <ToolbarBtn icon={<Play className="w-3 h-3 sm:w-3.5 sm:h-3.5" />} active={isRunning} />
                   <ToolbarBtn icon={<Square className="w-3 h-3 sm:w-3.5 sm:h-3.5" />} />
                   <ToolbarBtn icon={<RotateCcw className="w-3 h-3 sm:w-3.5 sm:h-3.5" />} />
-                  <div className="ml-1.5 sm:ml-2 px-1.5 sm:px-2 py-0.5 rounded bg-muted/60 dark:bg-zinc-800/50 text-muted-foreground dark:text-zinc-500 text-[9px] sm:text-[10px] font-medium transition-colors">
+                  <div className="ml-1.5 sm:ml-2 px-1.5 py-0.5 rounded bg-muted/60 dark:bg-zinc-800/50 text-muted-foreground dark:text-zinc-500 text-[9px] sm:text-[10px] font-bold transition-colors">
                     Python 3
                   </div>
                 </div>

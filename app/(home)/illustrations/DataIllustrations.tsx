@@ -1,11 +1,11 @@
 
 import React, { useId } from 'react';
-import { 
-  Globe, Server, Box, Database, 
-  User, Shield, Hash, Cpu, MessageSquare, 
+import {
+  Globe, Server, Box, Database,
+  User, Shield, Hash, Cpu, MessageSquare,
   Cloud, Activity, ArrowDown, CheckCircle, HardDrive,
   Zap, Search, Brain, Play, Save,
-  Terminal, Code, BarChart
+  Terminal, Code, BarChart, Layers, Sparkles
 } from 'lucide-react';
 
 const CYCLE_DUR = 8;
@@ -18,7 +18,7 @@ function sequenceKeyframes(stepIndex: number, totalSteps: number) {
   const start = stepIndex * stepSize;
   const end = (stepIndex + 1) * stepSize;
   const ramp = 0.04;
-  
+
   return {
     keyTimes: `0; ${Math.max(0, start - ramp).toFixed(3)}; ${start.toFixed(3)}; ${end.toFixed(3)}; ${Math.min(1, end + ramp).toFixed(3)}; 1`,
     values: `${DIM_OPACITY}; ${DIM_OPACITY}; ${BRIGHT_OPACITY}; ${BRIGHT_OPACITY}; ${DIM_OPACITY}; ${DIM_OPACITY}`,
@@ -67,7 +67,7 @@ const Node: React.FC<{
   icon: React.ElementType;
 }> = ({ x, y, w, h, label, stepIndex, totalSteps, icon: Icon }) => {
   const { keyTimes, values } = sequenceKeyframes(stepIndex, totalSteps);
-  
+
   return (
     <g transform={`translate(${x}, ${y})`}>
       {/* Background Card */}
@@ -78,7 +78,7 @@ const Node: React.FC<{
         className="fill-white dark:fill-slate-950 stroke-slate-200 dark:stroke-slate-800"
         strokeWidth="1"
       />
-      
+
       {/* Animated Active State Border */}
       <rect
         width={w}
@@ -118,13 +118,13 @@ export const DuckDBFlowIllustration: React.FC = () => (
   <svg viewBox="0 0 440 120" className="w-full h-auto overflow-visible">
     <Node x={10} y={30} w={70} h={60} label="Browser" icon={Globe} stepIndex={0} totalSteps={4} />
     <AnimatedDataFlow path="M80 60 L120 60" delay={0} duration={2} />
-    
+
     <Node x={125} y={30} w={70} h={60} label="Express" icon={Server} stepIndex={1} totalSteps={4} />
     <AnimatedDataFlow path="M195 60 L235 60" delay={2} duration={2} />
-    
+
     <Node x={240} y={30} w={70} h={60} label="Node.js" icon={Box} stepIndex={2} totalSteps={4} />
     <AnimatedDataFlow path="M310 60 L350 60" delay={4} duration={2} />
-    
+
     <Node x={355} y={30} w={70} h={60} label="DuckDB" icon={Database} stepIndex={3} totalSteps={4} />
   </svg>
 );
@@ -133,19 +133,19 @@ export const RAGFlowIllustration: React.FC = () => (
   <svg viewBox="0 0 500 180" className="w-full h-auto overflow-visible">
     <Node x={10} y={20} w={65} h={55} label="User" icon={User} stepIndex={0} totalSteps={6} />
     <AnimatedDataFlow path="M75 47.5 L100 47.5" delay={0} duration={1.3} />
-    
+
     <Node x={105} y={20} w={65} h={55} label="Proxy" icon={Shield} stepIndex={1} totalSteps={6} />
     <AnimatedDataFlow path="M170 47.5 L195 47.5" delay={1.3} duration={1.3} />
-    
+
     <Node x={200} y={20} w={65} h={55} label="Embed" icon={Hash} stepIndex={2} totalSteps={6} />
     <AnimatedDataFlow path="M265 47.5 L290 47.5" delay={2.6} duration={1.3} />
-    
+
     <Node x={295} y={20} w={65} h={55} label="Vector" icon={Database} stepIndex={3} totalSteps={6} />
     <AnimatedDataFlow path="M360 47.5 L385 47.5" delay={3.9} duration={1.3} />
-    
+
     <Node x={390} y={20} w={65} h={55} label="LLM" icon={Cpu} stepIndex={4} totalSteps={6} />
     <AnimatedDataFlow path="M422 75 L422 105" delay={5.2} duration={1.3} />
-    
+
     <Node x={105} y={110} w={350} h={45} label="Response" icon={MessageSquare} stepIndex={5} totalSteps={6} />
   </svg>
 );
@@ -156,19 +156,19 @@ export const DataIngestionIllustration: React.FC = () => (
     <Node x={10} y={20} w={75} h={55} label="S3 Buckets" icon={Cloud} stepIndex={0} totalSteps={4} />
     <Node x={10} y={90} w={75} h={55} label="SQL DBs" icon={Database} stepIndex={0} totalSteps={4} />
     <Node x={10} y={160} w={75} h={55} label="Live Stream" icon={Activity} stepIndex={0} totalSteps={4} />
-    
+
     {/* Curved Paths Converging */}
     <AnimatedDataFlow path="M85 47.5 Q 150 47.5, 175 117.5" delay={0} duration={2} />
     <AnimatedDataFlow path="M85 117.5 L175 117.5" delay={0.5} duration={1.5} />
     <AnimatedDataFlow path="M85 187.5 Q 150 187.5, 175 117.5" delay={1} duration={2} />
-    
+
     {/* Processing Pipeline */}
     <Node x={180} y={90} w={85} h={55} label="Unified" icon={ArrowDown} stepIndex={1} totalSteps={4} />
     <AnimatedDataFlow path="M265 117.5 L300 117.5" delay={2} duration={2} />
-    
+
     <Node x={305} y={90} w={80} h={55} label="Validate" icon={CheckCircle} stepIndex={2} totalSteps={4} />
     <AnimatedDataFlow path="M385 117.5 L420 117.5" delay={4} duration={2} />
-    
+
     <Node x={425} y={90} w={70} h={55} label="Warehouse" icon={HardDrive} stepIndex={3} totalSteps={4} />
   </svg>
 );
@@ -187,9 +187,9 @@ export const AgentWorkflowIllustration: React.FC = () => {
         <React.Fragment key={i}>
           <Node x={10 + i * 105} y={40} w={85} h={65} label={step.label} icon={step.icon} stepIndex={i} totalSteps={5} />
           {i < steps.length - 1 && (
-            <AnimatedDataFlow 
-              path={`M${10 + i * 105 + 85} 72.5 L${10 + (i + 1) * 105} 72.5`} 
-              delay={i * 1.6} 
+            <AnimatedDataFlow
+              path={`M${10 + i * 105 + 85} 72.5 L${10 + (i + 1) * 105} 72.5`}
+              delay={i * 1.6}
               duration={1.6}
             />
           )}
@@ -209,7 +209,7 @@ export const NotebookIllustration: React.FC = () => {
   return (
     <svg viewBox="0 0 600 240" className="w-full h-auto overflow-visible">
       <rect x="10" y="10" width="580" height="220" rx="10" className="fill-white dark:fill-slate-950 stroke-slate-200 dark:stroke-slate-800" strokeWidth="1" />
-      
+
       {/* Cell 1 */}
       <g transform="translate(30, 30)">
         <rect width="540" height="45" rx="6" className="fill-slate-50 dark:fill-slate-900 stroke-slate-200 dark:stroke-slate-800" />
@@ -219,7 +219,7 @@ export const NotebookIllustration: React.FC = () => {
           <animate attributeName="opacity" keyTimes={k0t} values={k0v} dur={`${CYCLE_DUR}s`} repeatCount="indefinite" />
         </rect>
       </g>
-      
+
       {/* Cell 2 */}
       <g transform="translate(30, 90)">
         <rect width="540" height="45" rx="6" className="fill-slate-50 dark:fill-slate-900 stroke-slate-200 dark:stroke-slate-800" />
@@ -229,7 +229,7 @@ export const NotebookIllustration: React.FC = () => {
           <animate attributeName="opacity" keyTimes={k1t} values={k1v} dur={`${CYCLE_DUR}s`} repeatCount="indefinite" />
         </rect>
       </g>
-      
+
       {/* Output */}
       <g transform="translate(30, 150)">
         <rect width="540" height="65" rx="6" className="fill-indigo-50/50 dark:fill-indigo-950/20 stroke-indigo-100 dark:stroke-indigo-900/50" opacity={0}>
@@ -239,6 +239,64 @@ export const NotebookIllustration: React.FC = () => {
         <rect x="70" y="18" width="200" height="6" rx="3" className="fill-indigo-200/50 dark:fill-indigo-900/50" />
         <rect x="70" y="32" width="140" height="6" rx="3" className="fill-indigo-100/50 dark:fill-indigo-950/50" />
       </g>
+    </svg>
+  );
+};
+
+export const SemanticLayerIllustration: React.FC = () => {
+  const steps = [
+    { label: "Sources", icon: Database },
+    { label: "Semantic", icon: Layers },
+    { label: "Predict", icon: Sparkles },
+  ];
+
+  return (
+    <svg viewBox="0 0 440 160" className="w-full h-auto overflow-visible">
+      {/* Glow effect for the center node */}
+      <defs>
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+
+      {/* Connection paths */}
+      <AnimatedDataFlow path="M90 80 L165 80" delay={0} duration={2} />
+      <AnimatedDataFlow path="M255 80 L330 80" delay={2} duration={2} />
+
+      {/* Nodes */}
+      <Node x={10} y={45} w={80} h={70} label="Sources" icon={Database} stepIndex={0} totalSteps={3} />
+
+      {/* Central Semantic Node with distinct styling */}
+      <g transform="translate(170, 40)">
+        <rect
+          width={80}
+          height={80}
+          rx="12"
+          className="fill-primary/5 stroke-primary/30"
+          strokeWidth="1.5"
+          filter="url(#glow)"
+        />
+        <g transform="translate(40, 32)">
+          <g transform="translate(-12, -12)">
+            <Layers className="text-primary animate-pulse" size={24} />
+          </g>
+          <text
+            y={24}
+            textAnchor="middle"
+            fontSize="10"
+            fontWeight="700"
+            className="fill-primary uppercase tracking-tighter"
+          >
+            Semantic
+          </text>
+        </g>
+      </g>
+
+      <Node x={335} y={45} w={85} h={70} label="AI Insights" icon={Sparkles} stepIndex={2} totalSteps={3} />
+
+      {/* Secondary flows to emphasize "Mapping" */}
+      <path d="M50 115 Q 50 145, 210 145 Q 370 145, 370 115" stroke="currentColor" strokeWidth="0.8" fill="none" className="text-primary/10" strokeDasharray="2 4" />
     </svg>
   );
 };
