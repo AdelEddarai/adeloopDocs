@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { DatabaseIcon, TwitterIcon, GithubIcon, LinkedinIcon } from 'lucide-react';
+import { ThemeToggle } from '@/components/layout/theme-toggle';
 
 const Footer: React.FC = () => {
     return (
@@ -134,9 +135,17 @@ const Footer: React.FC = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-xs text-muted-foreground">© 2024 Adeloop Inc. All rights reserved.</p>
-                    <p className="text-xs text-muted-foreground">Analytics & BI, powered by GenAI.</p>
+                <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="flex flex-col md:flex-row items-center gap-4">
+                        <p className="text-xs text-muted-foreground">© 2024 Adeloop Inc. All rights reserved.</p>
+                        <span className="hidden md:inline text-muted-foreground/30">|</span>
+                        <p className="text-xs text-muted-foreground font-medium">Analytics & BI, powered by GenAI.</p>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 mr-1">Appearance</span>
+                        <ThemeToggle className="scale-90" />
+                    </div>
                 </div>
             </div>
         </footer>

@@ -53,10 +53,10 @@ export default async function ProfilePage() {
     const recentArticles = await getRecentArticles()
 
     return (
-        <div className="relative min-h-screen w-full bg-background selection:bg-primary/20 flex flex-col pt-20">
-            <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.2] dark:opacity-[0.1]">
+        <div className="relative min-h-screen w-full flex flex-col pt-20">
+            {/* <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.2] dark:opacity-[0.1]">
                 <HexBackground />
-            </div>
+            </div> */}
 
             <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 pb-32">
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mt-8 md:mt-12">
@@ -170,17 +170,16 @@ export default async function ProfilePage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {/* Adeloop */}
-                                <div className="group relative rounded-[20px] p-[1.5px] overflow-hidden shadow-sm transition-all hover:shadow-xl hover:shadow-primary/10 flex flex-col">
-                                    <div className="absolute inset-[-100%] transition-opacity duration-500 opacity-[0.1] bg-[conic-gradient(from_0deg,transparent_0_340deg,hsl(var(--primary))_360deg)] animate-[spin_4s_linear_infinite]" />
+                                <div className="group relative rounded-[20px] p-[1.5px] overflow-hidden shadow-sm transition-all hover:shadow-xl  flex flex-col">
+                                    <div className="absolute inset-[-100%] transition-opacity duration-500 opacity-[0.1] animate-[spin_4s_linear_infinite]" />
                                     <div className="relative h-full bg-card rounded-[18.5px] flex flex-col overflow-hidden">
                                         <div className="relative h-32 w-full overflow-hidden border-b border-border/50">
                                             <Image
                                                 src="/adeloopnotebook.png"
                                                 alt="Adeloop Preview"
                                                 fill
-                                                className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-60 group-hover:opacity-100"
+                                                className="object-cover transition-transform duration-500 group-hover:scale-110"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
                                         </div>
                                         <div className="p-5 pt-4 flex flex-col flex-1">
                                             <div className="flex items-start justify-between mb-3">
@@ -211,16 +210,15 @@ export default async function ProfilePage() {
 
                                 {/* AdeloopAgent */}
                                 <div className="group relative rounded-[20px] p-[1.5px] overflow-hidden shadow-sm transition-all hover:shadow-xl hover:shadow-blue-500/10 flex flex-col">
-                                    <div className="absolute inset-[-100%] transition-opacity duration-500 opacity-[0.1] bg-[conic-gradient(from_0deg,transparent_0_340deg,#3b82f6_360deg)] animate-[spin_4s_linear_infinite]" />
+                                    <div className="absolute inset-[-100%] transition-opacity duration-500 opacity-[0.1]  animate-[spin_4s_linear_infinite]" />
                                     <div className="relative h-full bg-card rounded-[18.5px] flex flex-col overflow-hidden">
                                         <div className="relative h-32 w-full overflow-hidden border-b border-border/50">
                                             <Image
                                                 src="/aiagent.png"
                                                 alt="AdeloopAgent Preview"
                                                 fill
-                                                className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-60 group-hover:opacity-100"
+                                                className="object-cover transition-transform duration-500 group-hover:scale-110"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
                                         </div>
                                         <div className="p-5 pt-4 flex flex-col flex-1">
                                             <div className="flex items-start justify-between mb-3">
@@ -247,17 +245,16 @@ export default async function ProfilePage() {
                                 </div>
 
                                 {/* Bytona */}
-                                <div className="group relative rounded-[20px] p-[1.5px] overflow-hidden shadow-sm transition-all hover:shadow-xl hover:shadow-emerald-500/10 flex flex-col">
-                                    <div className="absolute inset-[-100%] transition-opacity duration-500 opacity-[0.1] bg-[conic-gradient(from_0deg,transparent_0_340deg,#10b981_360deg)] animate-[spin_4s_linear_infinite]" />
+                                <div className="group relative rounded-[20px] p-[1.5px] overflow-hidden transition-all hover:shadow-xl hover:shadow-emerald-500/10 flex flex-col">
+                                    <div className="absolute inset-[-100%] transition-opacity duration-500 opacity-[0.1] animate-[spin_4s_linear_infinite]" />
                                     <div className="relative h-full bg-card rounded-[18.5px] flex flex-col overflow-hidden">
                                         <div className="relative h-32 w-full overflow-hidden border-b border-border/50">
                                             <Image
                                                 src="/bytona.png"
                                                 alt="Bytona Preview"
                                                 fill
-                                                className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-60 group-hover:opacity-100"
+                                                className="object-cover transition-transform duration-500 group-hover:scale-110"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
                                         </div>
                                         <div className="p-5 pt-4 flex flex-col flex-1">
                                             <div className="flex items-start justify-between mb-3">
