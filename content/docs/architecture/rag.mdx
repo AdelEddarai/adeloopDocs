@@ -14,6 +14,20 @@ The RAG (Retrieval-Augmented Generation) system enables users to interact natura
 
 The system utilizes a hybrid architecture where the frontend handles user interaction and state management, while a dedicated Python backend orchestrates the heavy lifting of document parsing, embedding, and vector retrieval.
 
+<div className="my-8 rounded-xl border border-border bg-card/30 p-2 overflow-hidden group">
+  <div className="relative overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center">
+    <img 
+      src="/rag/hybrid_rag.gif" 
+      alt="Hybrid RAG Flow" 
+      className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
+      loading="lazy"
+    />
+    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/80 to-transparent p-4">
+      <p className="text-[11px] font-bold uppercase tracking-widest text-foreground/80">Visualizing the Hybrid RAG Flow</p>
+    </div>
+  </div>
+</div>
+
 ```mermaid
 flowchart TD
     User[User Interface]

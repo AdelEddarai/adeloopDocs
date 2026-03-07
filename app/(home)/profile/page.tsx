@@ -20,9 +20,9 @@ import {
     Cpu,
     ArrowRightIcon
 } from "lucide-react"
-import { HexBackground } from "../(home)/HexBackground"
+import { HexBackground } from "../HexBackground"
 import { Button } from "@/components/ui/button"
-import Footer from "../(home)/Footer"
+import Footer from "../Footer"
 
 interface Article {
     id: string | number

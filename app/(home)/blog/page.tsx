@@ -2,9 +2,9 @@ import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRightIcon, Calendar, Clock, ExternalLink, Sparkles } from "lucide-react"
-import { HexBackground } from "../(home)/HexBackground"
+import { HexBackground } from "../HexBackground"
 import { Button } from "@/components/ui/button"
-import Footer from "../(home)/Footer"
+import Footer from "../Footer"
 
 interface Article {
     id: string | number

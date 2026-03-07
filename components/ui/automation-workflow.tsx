@@ -250,14 +250,14 @@ export default function AutomationWorkflow() {
         </motion.div>
 
         {/* Workflow Canvas */}
-        <div className="relative w-full overflow-x-auto pb-4 scrollbar-hide">
-          <div className="relative overflow-hidden backdrop-blur-sm p-4 sm:p-8 min-w-[700px] lg:min-w-0">
+        <div className="relative w-full pb-4 px-1 sm:px-4 lg:px-0">
+          <div className="relative overflow-hidden backdrop-blur-sm p-3 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border border-zinc-800/50 bg-black/20">
 
             {/* Grid Background */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] pointer-events-none" />
 
             {/* Layout Container */}
-            <div ref={containerRef} className="relative min-h-[500px] flex items-center justify-between gap-8 sm:gap-12 md:gap-24">
+            <div ref={containerRef} className="relative min-h-[250px] sm:min-h-[400px] lg:min-h-[500px] flex flex-row items-center justify-between gap-2 sm:gap-8 lg:gap-24">
 
               {/* SVG Overlay for Cables */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
@@ -327,36 +327,36 @@ export default function AutomationWorkflow() {
                 ))}
               </svg>
 
-              {/* --- Left Column: SOURCES --- */}
-              <div className="flex flex-col justify-center gap-6 z-10 w-48">
-                <div className="text-center mb-2">
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-semibold">Inputs</span>
+              {/* --- 1. SOURCES --- */}
+              <div className="flex flex-col justify-center gap-3 sm:gap-6 z-10 w-[30%] sm:w-40 lg:w-48">
+                <div className="text-center mb-1 sm:mb-2">
+                  <span className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-semibold">Inputs</span>
                 </div>
                 {dataSources.map((item, index) => (
                   <motion.div
                     key={item.id}
                     ref={(el) => { sourceRefs.current[index] = el }}
-                    animate={phase === 'input' ? { x: [0, 5, 0] } : {}}
+                    animate={phase === 'input' ? { x: [0, 3, 0] } : {}}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     className="group relative"
                   >
-                    <div className={`flex items-center gap-3 p-3 rounded-lg border border-zinc-800 bg-zinc-900/80 hover:bg-zinc-800 hover:border-zinc-700 transition-all cursor-default`}>
-                      <div className={`p-2 rounded-md ${item.bg} ${item.color}`}>
-                        <item.icon className="w-4 h-4" />
+                    <div className={`flex flex-col xl:flex-row items-center xl:justify-start justify-center gap-1.5 sm:gap-3 p-1.5 sm:p-2 lg:p-3 rounded-lg border border-zinc-800 bg-zinc-900/80 hover:bg-zinc-800 hover:border-zinc-700 transition-all cursor-default`}>
+                      <div className={`p-1 sm:p-1.5 lg:p-2 rounded-md ${item.bg} ${item.color}`}>
+                        <item.icon className="w-3 h-3 sm:w-4 sm:h-4" />
                       </div>
-                      <span className="text-sm font-medium text-zinc-300 group-hover:text-white">{item.label}</span>
+                      <span className="text-[9px] sm:text-xs lg:text-sm font-medium text-zinc-300 group-hover:text-white text-center xl:text-left leading-tight">{item.label}</span>
                     </div>
                     {/* Connection Dot */}
-                    <div className={`absolute top-1/2 -right-1.5 w-2.5 h-2.5 rounded-full border border-zinc-700 transition-colors duration-500 ${phase === 'input' ? 'bg-emerald-400 border-emerald-400 shadow-[0_0_8px_#34d399]' : 'bg-zinc-800'}`} />
+                    <div className={`absolute top-1/2 -right-1 sm:-right-1.5 w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full border border-zinc-700 transition-colors duration-500 ${phase === 'input' ? 'bg-emerald-400 border-emerald-400 shadow-[0_0_8px_#34d399]' : 'bg-zinc-800'}`} />
                   </motion.div>
                 ))}
               </div>
 
-              {/* --- Center: ADELOOP CORE --- */}
+              {/* --- 2. ADELOOP CORE --- */}
               <div className="relative z-20 flex-shrink-0">
                 {/* Processing Glow Ring */}
                 <motion.div
-                  className="absolute inset-0 rounded-3xl bg-emerald-500/30 blur-xl"
+                  className="absolute inset-0 rounded-3xl bg-emerald-500/30 blur-md sm:blur-xl"
                   animate={{ opacity: phase === 'processing' ? 1 : 0, scale: phase === 'processing' ? 1.2 : 0.8 }}
                   transition={{ duration: 0.5 }}
                 />
@@ -365,9 +365,9 @@ export default function AutomationWorkflow() {
                   ref={adeloopRef}
                   animate={{
                     borderColor: phase === 'processing' ? "rgba(16, 185, 129, 0.5)" : "rgba(39, 39, 42, 1)",
-                    boxShadow: phase === 'processing' ? "0 0 30px rgba(16, 185, 129, 0.2)" : "0 0 0 rgba(0,0,0,0)"
+                    boxShadow: phase === 'processing' ? "0 0 20px rgba(16, 185, 129, 0.2)" : "0 0 0 rgba(0,0,0,0)"
                   }}
-                  className="w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 flex flex-col items-center justify-center relative overflow-hidden z-10"
+                  className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 flex flex-col items-center justify-center relative overflow-hidden z-10"
                 >
                   {/* Processing State Content */}
                   <AnimatePresence mode="wait">
@@ -379,12 +379,12 @@ export default function AutomationWorkflow() {
                         exit={{ opacity: 0, scale: 0.8 }}
                         className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-900/90"
                       >
-                        <div className="relative w-12 h-12 flex items-center justify-center mb-2">
-                          <div className="absolute inset-0 rounded-full border-2 border-emerald-500/30 animate-[spin_3s_linear_infinite]" />
-                          <div className="absolute inset-1 rounded-full border-2 border-emerald-400/50 border-t-transparent animate-[spin_1s_linear_infinite]" />
-                          <Zap className="w-5 h-5 text-emerald-400 fill-emerald-400" />
+                        <div className="relative w-6 h-6 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex items-center justify-center mb-1 sm:mb-2 text-emerald-400 fill-emerald-400">
+                          <div className="absolute inset-0 rounded-full border border-emerald-500/30 animate-[spin_3s_linear_infinite]" />
+                          <div className="absolute inset-[2px] rounded-full border border-emerald-400/50 border-t-transparent animate-[spin_1s_linear_infinite]" />
+                          <Zap className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
                         </div>
-                        <span className="text-[10px] font-bold text-emerald-400 tracking-widest animate-pulse">PROCESSING</span>
+                        <span className="text-[6px] sm:text-[8px] lg:text-[10px] font-bold text-emerald-400 tracking-widest animate-pulse">PROC</span>
                       </motion.div>
                     ) : (
                       <motion.div
@@ -394,12 +394,12 @@ export default function AutomationWorkflow() {
                         exit={{ opacity: 0 }}
                         className="flex flex-col items-center justify-center"
                       >
-                        <div className="relative p-3 mb-2 rounded-2xl bg-zinc-900 border border-zinc-800">
-                          <Zap className="w-8 h-8 md:w-10 md:h-10 text-emerald-500" />
+                        <div className="relative p-1.5 sm:p-2.5 lg:p-3 mb-1 sm:mb-2 rounded-lg sm:rounded-xl lg:rounded-2xl bg-zinc-900 border border-zinc-800">
+                          <Zap className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-emerald-500" />
                         </div>
                         <div className="text-center">
-                          <div className="text-xs font-bold text-white tracking-wide">ADELOOP</div>
-                          <div className="text-[9px] text-zinc-500 uppercase tracking-wider">Engine</div>
+                          <div className="text-[7px] sm:text-[9px] md:text-xs font-bold text-white tracking-wide">ADELOOP</div>
+                          <div className="hidden sm:block text-[6px] sm:text-[8px] lg:text-[9px] text-zinc-500 uppercase tracking-wider">Engine</div>
                         </div>
                       </motion.div>
                     )}
@@ -407,7 +407,7 @@ export default function AutomationWorkflow() {
 
                   {/* Status Indicator Dot */}
                   <motion.div
-                    className="absolute top-3 right-3 w-2 h-2 rounded-full"
+                    className="absolute top-1 right-1 sm:top-2 sm:right-2 lg:top-3 lg:right-3 w-1 h-1 sm:w-1.5 sm:h-1.5 lg:w-2 lg:h-2 rounded-full"
                     animate={{
                       backgroundColor: phase === 'processing' ? '#34d399' : '#52525b', // Emerald-400 vs Zinc-600
                       scale: phase === 'processing' ? [1, 1.5, 1] : 1
@@ -418,36 +418,36 @@ export default function AutomationWorkflow() {
               </div>
 
               {/* --- Right Column: DESTINATIONS --- */}
-              <div className="flex flex-col justify-center gap-6 z-10 w-48">
-                <div className="text-center mb-2">
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-semibold">Outputs</span>
+              <div className="flex flex-col justify-center gap-3 sm:gap-6 z-10 w-[30%] sm:w-40 lg:w-48">
+                <div className="text-center mb-1 sm:mb-2">
+                  <span className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-semibold">Outputs</span>
                 </div>
                 {destinations.map((item, index) => (
                   <motion.div
                     key={item.id}
                     ref={(el) => { destRefs.current[index] = el }}
-                    animate={phase === 'output' ? { x: [0, 5, 0] } : {}}
+                    animate={phase === 'output' ? { x: [0, 3, 0] } : {}}
                     transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                     className="group relative"
                   >
                     {/* Connection Dot (Left Side) */}
-                    <div className={`absolute top-1/2 -left-1.5 w-2.5 h-2.5 rounded-full border border-zinc-700 transition-colors duration-500 z-20 ${phase === 'output' ? 'bg-blue-400 border-blue-400 shadow-[0_0_8px_#60a5fa]' : 'bg-zinc-800'}`} />
+                    <div className={`absolute top-1/2 -left-1 sm:-left-1.5 w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full border border-zinc-700 transition-colors duration-500 z-20 ${phase === 'output' ? 'bg-blue-400 border-blue-400 shadow-[0_0_8px_#60a5fa]' : 'bg-zinc-800'}`} />
 
-                    <div className={`flex flex-row-reverse items-center gap-3 p-3 rounded-lg border border-zinc-800 bg-zinc-900/80 hover:bg-zinc-800 hover:border-zinc-700 transition-all cursor-default text-right`}>
-                      <div className={`p-2 rounded-md ${item.bg} ${item.color}`}>
-                        <item.icon className="w-4 h-4" />
+                    <div className={`flex flex-col xl:flex-row-reverse items-center xl:justify-start justify-center gap-1.5 sm:gap-3 p-1.5 sm:p-2 lg:p-3 rounded-lg border border-zinc-800 bg-zinc-900/80 hover:bg-zinc-800 hover:border-zinc-700 transition-all cursor-default`}>
+                      <div className={`p-1 sm:p-1.5 lg:p-2 rounded-md ${item.bg} ${item.color}`}>
+                        <item.icon className="w-3 h-3 sm:w-4 sm:h-4" />
                       </div>
-                      <span className="text-sm font-medium text-zinc-300 group-hover:text-white">{item.label}</span>
+                      <span className="text-[9px] sm:text-xs lg:text-sm font-medium text-zinc-300 group-hover:text-white text-center xl:text-right leading-tight">{item.label}</span>
                     </div>
 
-                    {/* Success Checkmark (Appears briefly after output) */}
+                    {/* Success Checkmark: Make tiny on mobile */}
                     <motion.div
-                      className="absolute -right-6 top-1/2 -translate-y-1/2"
+                      className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2"
                       initial={{ opacity: 0, scale: 0 }}
                       animate={phase === 'output' ? { opacity: [0, 1, 0], scale: [0.5, 1, 0.5] } : { opacity: 0 }}
                       transition={{ duration: 1.5, delay: 1 + index * 0.1 }}
                     >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                      <CheckCircle2 className="w-2 h-2 sm:w-3 sm:h-3 lg:w-4 lg:h-4 text-emerald-500" />
                     </motion.div>
                   </motion.div>
                 ))}
