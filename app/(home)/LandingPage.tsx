@@ -16,6 +16,7 @@ import {
 import { HexBackground } from "./HexBackground"
 import { Button } from "@/components/ui/button"
 import Footer from "./Footer"
+import { StreamingAnalytics } from "./StreamingAnalytics"
 import {
   DuckDBFlowIllustration,
   RAGFlowIllustration,
@@ -283,6 +284,13 @@ export default function LandingPage() {
               </Link>
             </FadeIn>
           </div>
+        </section>
+
+        {/* Live Data Stream */}
+        <section className="pt-12 sm:pt-16 pb-14 sm:pb-20">
+          <FadeIn>
+            <StreamingAnalytics />
+          </FadeIn>
         </section>
 
         {/* Capabilities + CTA block */}
